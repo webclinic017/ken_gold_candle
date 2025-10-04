@@ -251,21 +251,21 @@ class GoldCandleKenStrategy(bt.Strategy):
         if order.status in [order.Completed]:
             # Order successfully filled
             if order.isbuy():
-                self.log(f"✅ BUY filled: {order.executed.size:.5f} @ {order.executed.price:.5f}")
+                self.log(f"BUY filled: {order.executed.size:.5f} @ {order.executed.price:.5f}")
             else:
-                self.log(f"✅ SELL filled: {order.executed.size:.5f} @ {order.executed.price:.5f}")
+                self.log(f"SELL filled: {order.executed.size:.5f} @ {order.executed.price:.5f}")
         
         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
             # Order failed - remove from tracking (was added optimistically on submission)
             if self._entries:
                 self._entries.pop()
                 self._last_entry_price = self._entries[-1]['entry'] if self._entries else None
-                self.log(f"❌ Order {order.getstatusname()}: Removed from tracking ({len(self._entries)} remaining)", "WARNING")
+                self.log(f"Order {order.getstatusname()}: Removed from tracking ({len(self._entries)} remaining)", "WARNING")
     
     def notify_trade(self, trade):
         """Log P&L when positions close"""
         if trade.isclosed:
-            self.log(f"💰 Trade closed: P&L=${trade.pnl:.2f}")
+            self.log(f"Trade closed: P&L=${trade.pnl:.2f}")
     
     # Utilities
     def _infer_point(self) -> float:
@@ -327,7 +327,7 @@ class GoldCandleKenStrategy(bt.Strategy):
         account_equity = self.broker.getvalue()
         position_pnl = self.position.size * (current_price - self.position.price) * CONTRACT_SIZE
         
-        self.log("📊 BROKER POSITION STATE:")
+        self.log("BROKER POSITION STATE:")
         self.log(f"   Position Size (broker units): {self.position.size:.5f} ({abs(self.position.size) * CONTRACT_SIZE:.2f} oz)")
         self.log(f"   Position Average Price: {self.position.price:.5f}")
         self.log(f"   Current Market Price: {current_price:.5f}")
@@ -358,7 +358,7 @@ class GoldCandleKenStrategy(bt.Strategy):
         
         # Log changes periodically (every 100 bars to avoid spam)
         if len(self.data_close) % 100 == 0:
-            self.log(f"🔄 ATR Adaptive Update: Small={self.adaptive_small_candle:.1f}pts, Big={self.adaptive_big_candle:.1f}pts (ATR={atr_in_points:.1f}pts)")
+            self.log(f"ATR Adaptive Update: Small={self.adaptive_small_candle:.1f}pts, Big={self.adaptive_big_candle:.1f}pts (ATR={atr_in_points:.1f}pts)")
     
     def _update_percentile_based_thresholds(self) -> None:
         """Percentile-based adaptive candle sizing (recalculates every N bars)"""
@@ -382,7 +382,7 @@ class GoldCandleKenStrategy(bt.Strategy):
             self.adaptive_small_candle = sorted_ranges[small_idx] / self.point
             self.adaptive_big_candle = sorted_ranges[big_idx] / self.point
             
-            self.log(f"🔄 Percentile Adaptive Update: Small={self.adaptive_small_candle:.1f}pts ({self.SMALL_CANDLE_PERCENTILE}th%), Big={self.adaptive_big_candle:.1f}pts ({self.BIG_CANDLE_PERCENTILE}th%)")
+            self.log(f"Percentile Adaptive Update: Small={self.adaptive_small_candle:.1f}pts ({self.SMALL_CANDLE_PERCENTILE}th%), Big={self.adaptive_big_candle:.1f}pts ({self.BIG_CANDLE_PERCENTILE}th%)")
 
     # Entry logic is evaluated on each bar
     def next(self):
@@ -535,7 +535,7 @@ class GoldCandleKenStrategy(bt.Strategy):
             self.log(f"  Expected P&L (NO multiplier): ${position_pnl_no_multiplier:.2f}")
             self.log(f"  Expected Equity (NO multiplier): ${broker_cash + position_pnl_no_multiplier:.2f}")
             self.log(f"  ---")
-            self.log(f"  🔍 MISMATCH: ${abs(current_value - expected_equity_with_multiplier):.2f}")
+            self.log(f"  MISMATCH: ${abs(current_value - expected_equity_with_multiplier):.2f}")
             self.log("=" * 60)
         
         # Log drawdown periodically for monitoring
@@ -651,7 +651,7 @@ class GoldCandleKenStrategy(bt.Strategy):
         
         if is_buy:
             self.buy(size=size)
-            self.log(f"🟢 BUY ORDER PLACED:")
+            self.log(f"BUY ORDER PLACED:")
             self.log(f"   Size: {size} broker units ({size * CONTRACT_SIZE:.2f} oz)")
             self.log(f"   Price: {price:.5f}")
             self.log(f"   TP: {tp:.5f} ({tp_sl_mode})" if tp else "   TP: None")
@@ -659,7 +659,7 @@ class GoldCandleKenStrategy(bt.Strategy):
             self.log(f"   Notional Value: ${true_notional:.2f}")
         else:
             self.sell(size=size)
-            self.log(f"🔴 SELL ORDER PLACED:")
+            self.log(f"SELL ORDER PLACED:")
             self.log(f"   Size: {size} broker units ({size * CONTRACT_SIZE:.2f} oz)")
             self.log(f"   Price: {price:.5f}")
             self.log(f"   TP: {tp:.5f} ({tp_sl_mode})" if tp else "   TP: None")
@@ -738,22 +738,22 @@ class GoldCandleKenStrategy(bt.Strategy):
         
         # Validate
         if total_position_value > max_position_value:
-            self.log(f"  ❌ REJECTED: Would exceed limit by ${total_position_value - max_position_value:.2f}", "ERROR")
-            
+            self.log(f"  REJECTED: Would exceed limit by ${total_position_value - max_position_value:.2f}", "ERROR")
+
             # Check if this is due to LOT_SIZE or minimum lot size being too large
             if len(self._entries) == 0:
                 min_required_percent = (new_position_value / account_equity * 100.0)
-                self.log(f"  ⚠️  Position size {new_size} lots = ${new_position_value:.2f}", "WARNING")
-                self.log(f"  ⚠️  This exceeds your MAX_POSITION_SIZE_PERCENT limit of {self.MAX_POSITION_SIZE_PERCENT}%", "WARNING")
-                self.log(f"  💡 OPTIONS:", "WARNING")
+                self.log(f"  Position size {new_size} lots = ${new_position_value:.2f}", "WARNING")
+                self.log(f"  This exceeds your MAX_POSITION_SIZE_PERCENT limit of {self.MAX_POSITION_SIZE_PERCENT}%", "WARNING")
+                self.log(f"  OPTIONS:", "WARNING")
                 self.log(f"     1. Increase MAX_POSITION_SIZE_PERCENT to at least {min_required_percent:.1f}%", "WARNING")
                 self.log(f"     2. OR decrease LOT_SIZE (currently {self.LOT_SIZE})", "WARNING")
                 self.log(f"     3. OR increase account size (currently ${account_equity:.2f})", "WARNING")
-            
+
             self.log("=" * 60)
             return False
-        
-        self.log(f"  ✅ APPROVED: Within limit (${max_position_value - total_position_value:.2f} remaining)")
+
+        self.log(f"  APPROVED: Within limit (${max_position_value - total_position_value:.2f} remaining)")
         self.log("=" * 60)
         return True
 
@@ -826,7 +826,7 @@ class GoldCandleKenStrategy(bt.Strategy):
             
             if direction_is_long:
                 self.buy(size=size)
-                self.log(f"📈 GRID BUY RECOVERY #{len(self._entries) + 1}:")
+                self.log(f"GRID BUY RECOVERY #{len(self._entries) + 1}:")
                 self.log(f"   Size: {size} broker units ({size * CONTRACT_SIZE:.2f} oz)")
                 self.log(f"   Price: {current_price:.5f}")
                 self.log(f"   Notional: ${size * current_price * CONTRACT_SIZE:.2f}")
@@ -835,7 +835,7 @@ class GoldCandleKenStrategy(bt.Strategy):
                 self._entries.append({"dir": 1, "entry": current_price, "tp": tp, "sl": sl})
             else:
                 self.sell(size=size)
-                self.log(f"📉 GRID SELL RECOVERY #{len(self._entries) + 1}:")
+                self.log(f"GRID SELL RECOVERY #{len(self._entries) + 1}:")
                 self.log(f"   Size: {size} broker units ({size * CONTRACT_SIZE:.2f} oz)")
                 self.log(f"   Price: {current_price:.5f}")
                 self.log(f"   Notional: ${size * current_price * CONTRACT_SIZE:.2f}")
