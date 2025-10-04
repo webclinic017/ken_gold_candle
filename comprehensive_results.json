@@ -1,0 +1,2268 @@
+{
+  "symbol": "XAUUSD",
+  "asset_class": "forex",
+  "start_date": "2025-05-01",
+  "end_date": "2025-09-30",
+  "recommendations": {
+    "percentile_method": {
+      "default": {
+        "small": 20,
+        "big": 90
+      },
+      "signals": 927,
+      "recommended": {
+        "small": 20,
+        "big": 90,
+        "lookback": 200,
+        "update_frequency": 200
+      }
+    },
+    "atr_method": {
+      "default": {
+        "small": 0.5,
+        "big": 1.5
+      },
+      "signals": 2767,
+      "recommended": {
+        "small_multiplier": 0.5,
+        "big_multiplier": 1.5,
+        "atr_period": 14
+      }
+    },
+    "risk_management": {
+      "mean_atr": 1.2764707681139957,
+      "suggested_tp": 0.9100000000003092,
+      "suggested_sl": 1.9147061521709936
+    },
+    "market_stats": {
+      "candles_analyzed": 50000,
+      "mean_range": 0.9749713999999996,
+      "mean_atr": 1.2764707681139957
+    }
+  },
+  "percentile_optimization": [
+    {
+      "small_percentile": 40,
+      "big_percentile": 70,
+      "total_signals": 5590,
+      "buy_signals": 1578,
+      "sell_signals": 1364,
+      "filtered_signals": 2648,
+      "signal_rate": 11.18
+    },
+    {
+      "small_percentile": 35,
+      "big_percentile": 70,
+      "total_signals": 4964,
+      "buy_signals": 1396,
+      "sell_signals": 1203,
+      "filtered_signals": 2365,
+      "signal_rate": 9.927999999999999
+    },
+    {
+      "small_percentile": 40,
+      "big_percentile": 75,
+      "total_signals": 4584,
+      "buy_signals": 1313,
+      "sell_signals": 1123,
+      "filtered_signals": 2148,
+      "signal_rate": 9.168
+    },
+    {
+      "small_percentile": 30,
+      "big_percentile": 70,
+      "total_signals": 4253,
+      "buy_signals": 1182,
+      "sell_signals": 1020,
+      "filtered_signals": 2051,
+      "signal_rate": 8.506
+    },
+    {
+      "small_percentile": 35,
+      "big_percentile": 75,
+      "total_signals": 4072,
+      "buy_signals": 1161,
+      "sell_signals": 989,
+      "filtered_signals": 1922,
+      "signal_rate": 8.144
+    },
+    {
+      "small_percentile": 40,
+      "big_percentile": 80,
+      "total_signals": 3623,
+      "buy_signals": 1031,
+      "sell_signals": 901,
+      "filtered_signals": 1691,
+      "signal_rate": 7.2459999999999996
+    },
+    {
+      "small_percentile": 25,
+      "big_percentile": 70,
+      "total_signals": 3577,
+      "buy_signals": 975,
+      "sell_signals": 860,
+      "filtered_signals": 1742,
+      "signal_rate": 7.154000000000001
+    },
+    {
+      "small_percentile": 30,
+      "big_percentile": 75,
+      "total_signals": 3492,
+      "buy_signals": 981,
+      "sell_signals": 841,
+      "filtered_signals": 1670,
+      "signal_rate": 6.984
+    },
+    {
+      "small_percentile": 35,
+      "big_percentile": 80,
+      "total_signals": 3207,
+      "buy_signals": 907,
+      "sell_signals": 793,
+      "filtered_signals": 1507,
+      "signal_rate": 6.414000000000001
+    },
+    {
+      "small_percentile": 25,
+      "big_percentile": 75,
+      "total_signals": 2930,
+      "buy_signals": 805,
+      "sell_signals": 706,
+      "filtered_signals": 1419,
+      "signal_rate": 5.86
+    },
+    {
+      "small_percentile": 20,
+      "big_percentile": 70,
+      "total_signals": 2899,
+      "buy_signals": 784,
+      "sell_signals": 701,
+      "filtered_signals": 1414,
+      "signal_rate": 5.798
+    },
+    {
+      "small_percentile": 30,
+      "big_percentile": 80,
+      "total_signals": 2737,
+      "buy_signals": 763,
+      "sell_signals": 668,
+      "filtered_signals": 1306,
+      "signal_rate": 5.473999999999999
+    },
+    {
+      "small_percentile": 40,
+      "big_percentile": 85,
+      "total_signals": 2677,
+      "buy_signals": 774,
+      "sell_signals": 683,
+      "filtered_signals": 1220,
+      "signal_rate": 5.354
+    },
+    {
+      "small_percentile": 20,
+      "big_percentile": 75,
+      "total_signals": 2395,
+      "buy_signals": 648,
+      "sell_signals": 582,
+      "filtered_signals": 1165,
+      "signal_rate": 4.79
+    },
+    {
+      "small_percentile": 35,
+      "big_percentile": 85,
+      "total_signals": 2376,
+      "buy_signals": 679,
+      "sell_signals": 604,
+      "filtered_signals": 1093,
+      "signal_rate": 4.752
+    },
+    {
+      "small_percentile": 25,
+      "big_percentile": 80,
+      "total_signals": 2291,
+      "buy_signals": 624,
+      "sell_signals": 558,
+      "filtered_signals": 1109,
+      "signal_rate": 4.582
+    },
+    {
+      "small_percentile": 15,
+      "big_percentile": 70,
+      "total_signals": 2217,
+      "buy_signals": 576,
+      "sell_signals": 531,
+      "filtered_signals": 1110,
+      "signal_rate": 4.434
+    },
+    {
+      "small_percentile": 30,
+      "big_percentile": 85,
+      "total_signals": 2024,
+      "buy_signals": 568,
+      "sell_signals": 512,
+      "filtered_signals": 944,
+      "signal_rate": 4.048
+    },
+    {
+      "small_percentile": 20,
+      "big_percentile": 80,
+      "total_signals": 1870,
+      "buy_signals": 500,
+      "sell_signals": 459,
+      "filtered_signals": 911,
+      "signal_rate": 3.74
+    },
+    {
+      "small_percentile": 15,
+      "big_percentile": 75,
+      "total_signals": 1822,
+      "buy_signals": 474,
+      "sell_signals": 439,
+      "filtered_signals": 909,
+      "signal_rate": 3.644
+    },
+    {
+      "small_percentile": 40,
+      "big_percentile": 90,
+      "total_signals": 1779,
+      "buy_signals": 516,
+      "sell_signals": 475,
+      "filtered_signals": 788,
+      "signal_rate": 3.558
+    },
+    {
+      "small_percentile": 25,
+      "big_percentile": 85,
+      "total_signals": 1688,
+      "buy_signals": 459,
+      "sell_signals": 429,
+      "filtered_signals": 800,
+      "signal_rate": 3.376
+    },
+    {
+      "small_percentile": 35,
+      "big_percentile": 90,
+      "total_signals": 1587,
+      "buy_signals": 451,
+      "sell_signals": 427,
+      "filtered_signals": 709,
+      "signal_rate": 3.174
+    },
+    {
+      "small_percentile": 10,
+      "big_percentile": 70,
+      "total_signals": 1517,
+      "buy_signals": 389,
+      "sell_signals": 384,
+      "filtered_signals": 744,
+      "signal_rate": 3.034
+    },
+    {
+      "small_percentile": 15,
+      "big_percentile": 80,
+      "total_signals": 1414,
+      "buy_signals": 364,
+      "sell_signals": 343,
+      "filtered_signals": 707,
+      "signal_rate": 2.828
+    },
+    {
+      "small_percentile": 20,
+      "big_percentile": 85,
+      "total_signals": 1370,
+      "buy_signals": 361,
+      "sell_signals": 354,
+      "filtered_signals": 655,
+      "signal_rate": 2.74
+    },
+    {
+      "small_percentile": 30,
+      "big_percentile": 90,
+      "total_signals": 1355,
+      "buy_signals": 375,
+      "sell_signals": 364,
+      "filtered_signals": 616,
+      "signal_rate": 2.71
+    },
+    {
+      "small_percentile": 10,
+      "big_percentile": 75,
+      "total_signals": 1250,
+      "buy_signals": 321,
+      "sell_signals": 315,
+      "filtered_signals": 614,
+      "signal_rate": 2.5
+    },
+    {
+      "small_percentile": 25,
+      "big_percentile": 90,
+      "total_signals": 1131,
+      "buy_signals": 303,
+      "sell_signals": 305,
+      "filtered_signals": 523,
+      "signal_rate": 2.262
+    },
+    {
+      "small_percentile": 15,
+      "big_percentile": 85,
+      "total_signals": 1037,
+      "buy_signals": 264,
+      "sell_signals": 261,
+      "filtered_signals": 512,
+      "signal_rate": 2.0740000000000003
+    },
+    {
+      "small_percentile": 10,
+      "big_percentile": 80,
+      "total_signals": 961,
+      "buy_signals": 243,
+      "sell_signals": 243,
+      "filtered_signals": 475,
+      "signal_rate": 1.9220000000000002
+    },
+    {
+      "small_percentile": 20,
+      "big_percentile": 90,
+      "total_signals": 927,
+      "buy_signals": 245,
+      "sell_signals": 253,
+      "filtered_signals": 429,
+      "signal_rate": 1.854
+    },
+    {
+      "small_percentile": 40,
+      "big_percentile": 95,
+      "total_signals": 857,
+      "buy_signals": 253,
+      "sell_signals": 233,
+      "filtered_signals": 371,
+      "signal_rate": 1.714
+    },
+    {
+      "small_percentile": 35,
+      "big_percentile": 95,
+      "total_signals": 755,
+      "buy_signals": 220,
+      "sell_signals": 207,
+      "filtered_signals": 328,
+      "signal_rate": 1.51
+    },
+    {
+      "small_percentile": 10,
+      "big_percentile": 85,
+      "total_signals": 709,
+      "buy_signals": 174,
+      "sell_signals": 182,
+      "filtered_signals": 353,
+      "signal_rate": 1.418
+    },
+    {
+      "small_percentile": 15,
+      "big_percentile": 90,
+      "total_signals": 700,
+      "buy_signals": 176,
+      "sell_signals": 188,
+      "filtered_signals": 336,
+      "signal_rate": 1.4000000000000001
+    },
+    {
+      "small_percentile": 30,
+      "big_percentile": 95,
+      "total_signals": 636,
+      "buy_signals": 179,
+      "sell_signals": 174,
+      "filtered_signals": 283,
+      "signal_rate": 1.272
+    },
+    {
+      "small_percentile": 25,
+      "big_percentile": 95,
+      "total_signals": 531,
+      "buy_signals": 143,
+      "sell_signals": 147,
+      "filtered_signals": 241,
+      "signal_rate": 1.0619999999999998
+    },
+    {
+      "small_percentile": 10,
+      "big_percentile": 90,
+      "total_signals": 473,
+      "buy_signals": 112,
+      "sell_signals": 125,
+      "filtered_signals": 236,
+      "signal_rate": 0.946
+    },
+    {
+      "small_percentile": 20,
+      "big_percentile": 95,
+      "total_signals": 434,
+      "buy_signals": 118,
+      "sell_signals": 121,
+      "filtered_signals": 195,
+      "signal_rate": 0.868
+    },
+    {
+      "small_percentile": 15,
+      "big_percentile": 95,
+      "total_signals": 323,
+      "buy_signals": 79,
+      "sell_signals": 91,
+      "filtered_signals": 153,
+      "signal_rate": 0.6459999999999999
+    },
+    {
+      "small_percentile": 10,
+      "big_percentile": 95,
+      "total_signals": 222,
+      "buy_signals": 52,
+      "sell_signals": 63,
+      "filtered_signals": 107,
+      "signal_rate": 0.44400000000000006
+    }
+  ],
+  "atr_optimization": [
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 1.0,
+      "total_signals": 10612,
+      "buy_signals": 3158,
+      "sell_signals": 2684,
+      "filtered_signals": 4770,
+      "signal_rate": 21.224
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 1.0,
+      "total_signals": 9963,
+      "buy_signals": 2958,
+      "sell_signals": 2510,
+      "filtered_signals": 4495,
+      "signal_rate": 19.926
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 1.0,
+      "total_signals": 9241,
+      "buy_signals": 2737,
+      "sell_signals": 2302,
+      "filtered_signals": 4202,
+      "signal_rate": 18.482000000000003
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 1.1,
+      "total_signals": 9097,
+      "buy_signals": 2735,
+      "sell_signals": 2298,
+      "filtered_signals": 4064,
+      "signal_rate": 18.194
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 1.1,
+      "total_signals": 8534,
+      "buy_signals": 2569,
+      "sell_signals": 2140,
+      "filtered_signals": 3825,
+      "signal_rate": 17.068
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 1.0,
+      "total_signals": 8412,
+      "buy_signals": 2480,
+      "sell_signals": 2053,
+      "filtered_signals": 3879,
+      "signal_rate": 16.824
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 1.1,
+      "total_signals": 7919,
+      "buy_signals": 2371,
+      "sell_signals": 1960,
+      "filtered_signals": 3588,
+      "signal_rate": 15.838
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 1.2,
+      "total_signals": 7710,
+      "buy_signals": 2337,
+      "sell_signals": 1973,
+      "filtered_signals": 3400,
+      "signal_rate": 15.42
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 1.0,
+      "total_signals": 7490,
+      "buy_signals": 2192,
+      "sell_signals": 1827,
+      "filtered_signals": 3471,
+      "signal_rate": 14.979999999999999
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 1.2,
+      "total_signals": 7231,
+      "buy_signals": 2195,
+      "sell_signals": 1842,
+      "filtered_signals": 3194,
+      "signal_rate": 14.462
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 1.1,
+      "total_signals": 7214,
+      "buy_signals": 2146,
+      "sell_signals": 1749,
+      "filtered_signals": 3319,
+      "signal_rate": 14.427999999999999
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 1.2,
+      "total_signals": 6720,
+      "buy_signals": 2026,
+      "sell_signals": 1691,
+      "filtered_signals": 3003,
+      "signal_rate": 13.44
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 1.3,
+      "total_signals": 6538,
+      "buy_signals": 2023,
+      "sell_signals": 1699,
+      "filtered_signals": 2816,
+      "signal_rate": 13.075999999999999
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 1.1,
+      "total_signals": 6433,
+      "buy_signals": 1898,
+      "sell_signals": 1554,
+      "filtered_signals": 2981,
+      "signal_rate": 12.866
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 1.0,
+      "total_signals": 6394,
+      "buy_signals": 1860,
+      "sell_signals": 1537,
+      "filtered_signals": 2997,
+      "signal_rate": 12.788
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 1.2,
+      "total_signals": 6116,
+      "buy_signals": 1836,
+      "sell_signals": 1510,
+      "filtered_signals": 2770,
+      "signal_rate": 12.232
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 1.3,
+      "total_signals": 6116,
+      "buy_signals": 1897,
+      "sell_signals": 1581,
+      "filtered_signals": 2638,
+      "signal_rate": 12.232
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 1.3,
+      "total_signals": 5683,
+      "buy_signals": 1750,
+      "sell_signals": 1449,
+      "filtered_signals": 2484,
+      "signal_rate": 11.366
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 1.1,
+      "total_signals": 5510,
+      "buy_signals": 1612,
+      "sell_signals": 1307,
+      "filtered_signals": 2591,
+      "signal_rate": 11.020000000000001
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 1.4,
+      "total_signals": 5498,
+      "buy_signals": 1737,
+      "sell_signals": 1438,
+      "filtered_signals": 2323,
+      "signal_rate": 10.996
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 1.2,
+      "total_signals": 5458,
+      "buy_signals": 1617,
+      "sell_signals": 1346,
+      "filtered_signals": 2495,
+      "signal_rate": 10.915999999999999
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 1.0,
+      "total_signals": 5208,
+      "buy_signals": 1501,
+      "sell_signals": 1244,
+      "filtered_signals": 2463,
+      "signal_rate": 10.416
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 1.3,
+      "total_signals": 5174,
+      "buy_signals": 1589,
+      "sell_signals": 1294,
+      "filtered_signals": 2291,
+      "signal_rate": 10.348
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 1.4,
+      "total_signals": 5149,
+      "buy_signals": 1634,
+      "sell_signals": 1335,
+      "filtered_signals": 2180,
+      "signal_rate": 10.298
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 1.4,
+      "total_signals": 4785,
+      "buy_signals": 1510,
+      "sell_signals": 1218,
+      "filtered_signals": 2057,
+      "signal_rate": 9.569999999999999
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 1.2,
+      "total_signals": 4665,
+      "buy_signals": 1356,
+      "sell_signals": 1134,
+      "filtered_signals": 2175,
+      "signal_rate": 9.33
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 1.3,
+      "total_signals": 4620,
+      "buy_signals": 1400,
+      "sell_signals": 1155,
+      "filtered_signals": 2065,
+      "signal_rate": 9.24
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 1.5,
+      "total_signals": 4606,
+      "buy_signals": 1470,
+      "sell_signals": 1207,
+      "filtered_signals": 1929,
+      "signal_rate": 9.212
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 1.1,
+      "total_signals": 4501,
+      "buy_signals": 1296,
+      "sell_signals": 1066,
+      "filtered_signals": 2139,
+      "signal_rate": 9.002
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 1.4,
+      "total_signals": 4345,
+      "buy_signals": 1368,
+      "sell_signals": 1083,
+      "filtered_signals": 1894,
+      "signal_rate": 8.690000000000001
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 1.5,
+      "total_signals": 4311,
+      "buy_signals": 1378,
+      "sell_signals": 1120,
+      "filtered_signals": 1813,
+      "signal_rate": 8.622
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 1.5,
+      "total_signals": 4016,
+      "buy_signals": 1274,
+      "sell_signals": 1021,
+      "filtered_signals": 1721,
+      "signal_rate": 8.032
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 1.3,
+      "total_signals": 3945,
+      "buy_signals": 1171,
+      "sell_signals": 981,
+      "filtered_signals": 1793,
+      "signal_rate": 7.89
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 1.0,
+      "total_signals": 3893,
+      "buy_signals": 1076,
+      "sell_signals": 925,
+      "filtered_signals": 1892,
+      "signal_rate": 7.786
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 1.4,
+      "total_signals": 3878,
+      "buy_signals": 1207,
+      "sell_signals": 968,
+      "filtered_signals": 1703,
+      "signal_rate": 7.756
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 1.6,
+      "total_signals": 3856,
+      "buy_signals": 1246,
+      "sell_signals": 1030,
+      "filtered_signals": 1580,
+      "signal_rate": 7.712
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 1.2,
+      "total_signals": 3814,
+      "buy_signals": 1091,
+      "sell_signals": 919,
+      "filtered_signals": 1804,
+      "signal_rate": 7.628
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 1.5,
+      "total_signals": 3626,
+      "buy_signals": 1150,
+      "sell_signals": 902,
+      "filtered_signals": 1574,
+      "signal_rate": 7.252
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 1.6,
+      "total_signals": 3611,
+      "buy_signals": 1169,
+      "sell_signals": 954,
+      "filtered_signals": 1488,
+      "signal_rate": 7.222
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 1.1,
+      "total_signals": 3375,
+      "buy_signals": 935,
+      "sell_signals": 799,
+      "filtered_signals": 1641,
+      "signal_rate": 6.75
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 1.6,
+      "total_signals": 3368,
+      "buy_signals": 1084,
+      "sell_signals": 867,
+      "filtered_signals": 1417,
+      "signal_rate": 6.736000000000001
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 1.4,
+      "total_signals": 3317,
+      "buy_signals": 1009,
+      "sell_signals": 822,
+      "filtered_signals": 1486,
+      "signal_rate": 6.6339999999999995
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 1.3,
+      "total_signals": 3237,
+      "buy_signals": 947,
+      "sell_signals": 789,
+      "filtered_signals": 1501,
+      "signal_rate": 6.474
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 1.5,
+      "total_signals": 3231,
+      "buy_signals": 1004,
+      "sell_signals": 810,
+      "filtered_signals": 1417,
+      "signal_rate": 6.462
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 1.7,
+      "total_signals": 3205,
+      "buy_signals": 1055,
+      "sell_signals": 871,
+      "filtered_signals": 1279,
+      "signal_rate": 6.41
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 1.6,
+      "total_signals": 3045,
+      "buy_signals": 980,
+      "sell_signals": 763,
+      "filtered_signals": 1302,
+      "signal_rate": 6.09
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 1.7,
+      "total_signals": 2996,
+      "buy_signals": 989,
+      "sell_signals": 804,
+      "filtered_signals": 1203,
+      "signal_rate": 5.992
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 1.2,
+      "total_signals": 2865,
+      "buy_signals": 788,
+      "sell_signals": 689,
+      "filtered_signals": 1388,
+      "signal_rate": 5.7299999999999995
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 1.7,
+      "total_signals": 2796,
+      "buy_signals": 921,
+      "sell_signals": 728,
+      "filtered_signals": 1147,
+      "signal_rate": 5.592
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 1.5,
+      "total_signals": 2767,
+      "buy_signals": 842,
+      "sell_signals": 690,
+      "filtered_signals": 1235,
+      "signal_rate": 5.534
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 1.4,
+      "total_signals": 2728,
+      "buy_signals": 816,
+      "sell_signals": 663,
+      "filtered_signals": 1249,
+      "signal_rate": 5.4559999999999995
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 1.6,
+      "total_signals": 2724,
+      "buy_signals": 859,
+      "sell_signals": 687,
+      "filtered_signals": 1178,
+      "signal_rate": 5.448
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 1.8,
+      "total_signals": 2634,
+      "buy_signals": 884,
+      "sell_signals": 705,
+      "filtered_signals": 1045,
+      "signal_rate": 5.268
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 1.7,
+      "total_signals": 2523,
+      "buy_signals": 829,
+      "sell_signals": 638,
+      "filtered_signals": 1056,
+      "signal_rate": 5.045999999999999
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 1.8,
+      "total_signals": 2461,
+      "buy_signals": 830,
+      "sell_signals": 650,
+      "filtered_signals": 981,
+      "signal_rate": 4.922
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 1.3,
+      "total_signals": 2437,
+      "buy_signals": 681,
+      "sell_signals": 597,
+      "filtered_signals": 1159,
+      "signal_rate": 4.874
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 1.6,
+      "total_signals": 2326,
+      "buy_signals": 717,
+      "sell_signals": 579,
+      "filtered_signals": 1030,
+      "signal_rate": 4.652
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 1.8,
+      "total_signals": 2305,
+      "buy_signals": 772,
+      "sell_signals": 593,
+      "filtered_signals": 940,
+      "signal_rate": 4.61
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 1.5,
+      "total_signals": 2277,
+      "buy_signals": 680,
+      "sell_signals": 552,
+      "filtered_signals": 1045,
+      "signal_rate": 4.553999999999999
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 1.7,
+      "total_signals": 2266,
+      "buy_signals": 730,
+      "sell_signals": 574,
+      "filtered_signals": 962,
+      "signal_rate": 4.532
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 1.9,
+      "total_signals": 2163,
+      "buy_signals": 720,
+      "sell_signals": 598,
+      "filtered_signals": 845,
+      "signal_rate": 4.326
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 1.8,
+      "total_signals": 2088,
+      "buy_signals": 698,
+      "sell_signals": 525,
+      "filtered_signals": 865,
+      "signal_rate": 4.176
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 1.4,
+      "total_signals": 2067,
+      "buy_signals": 589,
+      "sell_signals": 507,
+      "filtered_signals": 971,
+      "signal_rate": 4.134
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 1.9,
+      "total_signals": 2020,
+      "buy_signals": 677,
+      "sell_signals": 549,
+      "filtered_signals": 794,
+      "signal_rate": 4.04
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 1.7,
+      "total_signals": 1924,
+      "buy_signals": 608,
+      "sell_signals": 480,
+      "filtered_signals": 836,
+      "signal_rate": 3.848
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 1.6,
+      "total_signals": 1912,
+      "buy_signals": 583,
+      "sell_signals": 459,
+      "filtered_signals": 870,
+      "signal_rate": 3.8240000000000003
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 1.9,
+      "total_signals": 1904,
+      "buy_signals": 633,
+      "sell_signals": 507,
+      "filtered_signals": 764,
+      "signal_rate": 3.8080000000000003
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 1.8,
+      "total_signals": 1871,
+      "buy_signals": 618,
+      "sell_signals": 469,
+      "filtered_signals": 784,
+      "signal_rate": 3.742
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 2.0,
+      "total_signals": 1758,
+      "buy_signals": 590,
+      "sell_signals": 493,
+      "filtered_signals": 675,
+      "signal_rate": 3.5159999999999996
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 1.5,
+      "total_signals": 1735,
+      "buy_signals": 489,
+      "sell_signals": 423,
+      "filtered_signals": 823,
+      "signal_rate": 3.47
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 1.9,
+      "total_signals": 1727,
+      "buy_signals": 574,
+      "sell_signals": 447,
+      "filtered_signals": 706,
+      "signal_rate": 3.454
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 2.0,
+      "total_signals": 1638,
+      "buy_signals": 552,
+      "sell_signals": 450,
+      "filtered_signals": 636,
+      "signal_rate": 3.276
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 1.7,
+      "total_signals": 1589,
+      "buy_signals": 493,
+      "sell_signals": 378,
+      "filtered_signals": 718,
+      "signal_rate": 3.1780000000000004
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 1.8,
+      "total_signals": 1584,
+      "buy_signals": 509,
+      "sell_signals": 395,
+      "filtered_signals": 680,
+      "signal_rate": 3.168
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 1.9,
+      "total_signals": 1551,
+      "buy_signals": 512,
+      "sell_signals": 403,
+      "filtered_signals": 636,
+      "signal_rate": 3.102
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 2.0,
+      "total_signals": 1539,
+      "buy_signals": 513,
+      "sell_signals": 416,
+      "filtered_signals": 610,
+      "signal_rate": 3.078
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 2.1,
+      "total_signals": 1454,
+      "buy_signals": 494,
+      "sell_signals": 407,
+      "filtered_signals": 553,
+      "signal_rate": 2.9080000000000004
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 1.6,
+      "total_signals": 1448,
+      "buy_signals": 412,
+      "sell_signals": 352,
+      "filtered_signals": 684,
+      "signal_rate": 2.896
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 2.0,
+      "total_signals": 1398,
+      "buy_signals": 468,
+      "sell_signals": 369,
+      "filtered_signals": 561,
+      "signal_rate": 2.796
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 2.1,
+      "total_signals": 1350,
+      "buy_signals": 460,
+      "sell_signals": 369,
+      "filtered_signals": 521,
+      "signal_rate": 2.7
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 1.9,
+      "total_signals": 1309,
+      "buy_signals": 415,
+      "sell_signals": 339,
+      "filtered_signals": 555,
+      "signal_rate": 2.618
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 1.8,
+      "total_signals": 1296,
+      "buy_signals": 408,
+      "sell_signals": 310,
+      "filtered_signals": 578,
+      "signal_rate": 2.5919999999999996
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 2.1,
+      "total_signals": 1267,
+      "buy_signals": 427,
+      "sell_signals": 342,
+      "filtered_signals": 498,
+      "signal_rate": 2.5340000000000003
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 2.0,
+      "total_signals": 1249,
+      "buy_signals": 416,
+      "sell_signals": 332,
+      "filtered_signals": 501,
+      "signal_rate": 2.4979999999999998
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 1.7,
+      "total_signals": 1203,
+      "buy_signals": 343,
+      "sell_signals": 287,
+      "filtered_signals": 573,
+      "signal_rate": 2.406
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 2.2,
+      "total_signals": 1169,
+      "buy_signals": 402,
+      "sell_signals": 338,
+      "filtered_signals": 429,
+      "signal_rate": 2.338
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 2.1,
+      "total_signals": 1149,
+      "buy_signals": 389,
+      "sell_signals": 303,
+      "filtered_signals": 457,
+      "signal_rate": 2.298
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 2.2,
+      "total_signals": 1086,
+      "buy_signals": 371,
+      "sell_signals": 309,
+      "filtered_signals": 406,
+      "signal_rate": 2.172
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 1.9,
+      "total_signals": 1069,
+      "buy_signals": 333,
+      "sell_signals": 266,
+      "filtered_signals": 470,
+      "signal_rate": 2.138
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 2.0,
+      "total_signals": 1061,
+      "buy_signals": 339,
+      "sell_signals": 281,
+      "filtered_signals": 441,
+      "signal_rate": 2.122
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 2.1,
+      "total_signals": 1024,
+      "buy_signals": 343,
+      "sell_signals": 269,
+      "filtered_signals": 412,
+      "signal_rate": 2.048
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 2.2,
+      "total_signals": 1022,
+      "buy_signals": 343,
+      "sell_signals": 289,
+      "filtered_signals": 390,
+      "signal_rate": 2.044
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 1.8,
+      "total_signals": 994,
+      "buy_signals": 283,
+      "sell_signals": 236,
+      "filtered_signals": 475,
+      "signal_rate": 1.9879999999999998
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 2.3,
+      "total_signals": 933,
+      "buy_signals": 320,
+      "sell_signals": 286,
+      "filtered_signals": 327,
+      "signal_rate": 1.8659999999999999
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 2.2,
+      "total_signals": 925,
+      "buy_signals": 312,
+      "sell_signals": 255,
+      "filtered_signals": 358,
+      "signal_rate": 1.8499999999999999
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 2.0,
+      "total_signals": 874,
+      "buy_signals": 275,
+      "sell_signals": 222,
+      "filtered_signals": 377,
+      "signal_rate": 1.748
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 2.3,
+      "total_signals": 869,
+      "buy_signals": 299,
+      "sell_signals": 260,
+      "filtered_signals": 310,
+      "signal_rate": 1.738
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 2.1,
+      "total_signals": 867,
+      "buy_signals": 279,
+      "sell_signals": 227,
+      "filtered_signals": 361,
+      "signal_rate": 1.7340000000000002
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 2.2,
+      "total_signals": 825,
+      "buy_signals": 272,
+      "sell_signals": 228,
+      "filtered_signals": 325,
+      "signal_rate": 1.6500000000000001
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 1.9,
+      "total_signals": 820,
+      "buy_signals": 232,
+      "sell_signals": 201,
+      "filtered_signals": 387,
+      "signal_rate": 1.6400000000000001
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 2.3,
+      "total_signals": 817,
+      "buy_signals": 276,
+      "sell_signals": 244,
+      "filtered_signals": 297,
+      "signal_rate": 1.6340000000000001
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 2.4,
+      "total_signals": 760,
+      "buy_signals": 269,
+      "sell_signals": 228,
+      "filtered_signals": 263,
+      "signal_rate": 1.52
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 2.3,
+      "total_signals": 744,
+      "buy_signals": 251,
+      "sell_signals": 217,
+      "filtered_signals": 276,
+      "signal_rate": 1.488
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 2.1,
+      "total_signals": 718,
+      "buy_signals": 227,
+      "sell_signals": 180,
+      "filtered_signals": 311,
+      "signal_rate": 1.436
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 2.4,
+      "total_signals": 713,
+      "buy_signals": 251,
+      "sell_signals": 212,
+      "filtered_signals": 250,
+      "signal_rate": 1.426
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 2.2,
+      "total_signals": 691,
+      "buy_signals": 218,
+      "sell_signals": 190,
+      "filtered_signals": 283,
+      "signal_rate": 1.3820000000000001
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 2.4,
+      "total_signals": 675,
+      "buy_signals": 232,
+      "sell_signals": 203,
+      "filtered_signals": 240,
+      "signal_rate": 1.35
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 2.0,
+      "total_signals": 674,
+      "buy_signals": 188,
+      "sell_signals": 170,
+      "filtered_signals": 316,
+      "signal_rate": 1.348
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 2.3,
+      "total_signals": 666,
+      "buy_signals": 222,
+      "sell_signals": 193,
+      "filtered_signals": 251,
+      "signal_rate": 1.332
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 2.4,
+      "total_signals": 612,
+      "buy_signals": 210,
+      "sell_signals": 180,
+      "filtered_signals": 222,
+      "signal_rate": 1.224
+    },
+    {
+      "small_multiplier": 1.0,
+      "big_multiplier": 2.5,
+      "total_signals": 600,
+      "buy_signals": 209,
+      "sell_signals": 184,
+      "filtered_signals": 207,
+      "signal_rate": 1.2
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 2.2,
+      "total_signals": 573,
+      "buy_signals": 180,
+      "sell_signals": 151,
+      "filtered_signals": 242,
+      "signal_rate": 1.146
+    },
+    {
+      "small_multiplier": 0.9,
+      "big_multiplier": 2.5,
+      "total_signals": 563,
+      "buy_signals": 195,
+      "sell_signals": 170,
+      "filtered_signals": 198,
+      "signal_rate": 1.126
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 2.3,
+      "total_signals": 560,
+      "buy_signals": 181,
+      "sell_signals": 159,
+      "filtered_signals": 220,
+      "signal_rate": 1.1199999999999999
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 2.1,
+      "total_signals": 558,
+      "buy_signals": 155,
+      "sell_signals": 137,
+      "filtered_signals": 266,
+      "signal_rate": 1.1159999999999999
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 2.4,
+      "total_signals": 549,
+      "buy_signals": 186,
+      "sell_signals": 162,
+      "filtered_signals": 201,
+      "signal_rate": 1.098
+    },
+    {
+      "small_multiplier": 0.8,
+      "big_multiplier": 2.5,
+      "total_signals": 529,
+      "buy_signals": 177,
+      "sell_signals": 163,
+      "filtered_signals": 189,
+      "signal_rate": 1.058
+    },
+    {
+      "small_multiplier": 0.7,
+      "big_multiplier": 2.5,
+      "total_signals": 481,
+      "buy_signals": 161,
+      "sell_signals": 144,
+      "filtered_signals": 176,
+      "signal_rate": 0.962
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 2.4,
+      "total_signals": 463,
+      "buy_signals": 154,
+      "sell_signals": 132,
+      "filtered_signals": 177,
+      "signal_rate": 0.9259999999999999
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 2.3,
+      "total_signals": 461,
+      "buy_signals": 147,
+      "sell_signals": 125,
+      "filtered_signals": 189,
+      "signal_rate": 0.922
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 2.2,
+      "total_signals": 439,
+      "buy_signals": 122,
+      "sell_signals": 112,
+      "filtered_signals": 205,
+      "signal_rate": 0.878
+    },
+    {
+      "small_multiplier": 0.6,
+      "big_multiplier": 2.5,
+      "total_signals": 432,
+      "buy_signals": 141,
+      "sell_signals": 129,
+      "filtered_signals": 162,
+      "signal_rate": 0.864
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 2.4,
+      "total_signals": 376,
+      "buy_signals": 122,
+      "sell_signals": 104,
+      "filtered_signals": 150,
+      "signal_rate": 0.752
+    },
+    {
+      "small_multiplier": 0.5,
+      "big_multiplier": 2.5,
+      "total_signals": 359,
+      "buy_signals": 113,
+      "sell_signals": 105,
+      "filtered_signals": 141,
+      "signal_rate": 0.718
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 2.3,
+      "total_signals": 357,
+      "buy_signals": 102,
+      "sell_signals": 97,
+      "filtered_signals": 158,
+      "signal_rate": 0.714
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 2.4,
+      "total_signals": 293,
+      "buy_signals": 85,
+      "sell_signals": 82,
+      "filtered_signals": 126,
+      "signal_rate": 0.586
+    },
+    {
+      "small_multiplier": 0.4,
+      "big_multiplier": 2.5,
+      "total_signals": 293,
+      "buy_signals": 92,
+      "sell_signals": 82,
+      "filtered_signals": 119,
+      "signal_rate": 0.586
+    },
+    {
+      "small_multiplier": 0.3,
+      "big_multiplier": 2.5,
+      "total_signals": 234,
+      "buy_signals": 67,
+      "sell_signals": 66,
+      "filtered_signals": 101,
+      "signal_rate": 0.468
+    }
+  ],
+  "tp_sl_optimization": [
+    {
+      "tp_multiplier": 2.5,
+      "sl_multiplier": 0.5,
+      "risk_reward_ratio": 5.0,
+      "total_pnl": 140.2,
+      "total_trades": 465,
+      "win_rate": 24.09,
+      "profit_factor": 1.63,
+      "max_drawdown": 14.74,
+      "sharpe_ratio": 0.17,
+      "expectancy": 0.3
+    },
+    {
+      "tp_multiplier": 3.0,
+      "sl_multiplier": 0.5,
+      "risk_reward_ratio": 6.0,
+      "total_pnl": 124.44,
+      "total_trades": 465,
+      "win_rate": 20.43,
+      "profit_factor": 1.53,
+      "max_drawdown": 17.52,
+      "sharpe_ratio": 0.14,
+      "expectancy": 0.27
+    },
+    {
+      "tp_multiplier": 2.0,
+      "sl_multiplier": 0.5,
+      "risk_reward_ratio": 4.0,
+      "total_pnl": 123.81,
+      "total_trades": 465,
+      "win_rate": 27.74,
+      "profit_factor": 1.59,
+      "max_drawdown": 15.4,
+      "sharpe_ratio": 0.17,
+      "expectancy": 0.27
+    },
+    {
+      "tp_multiplier": 3.0,
+      "sl_multiplier": 1.0,
+      "risk_reward_ratio": 3.0,
+      "total_pnl": 110.15,
+      "total_trades": 465,
+      "win_rate": 29.68,
+      "profit_factor": 1.27,
+      "max_drawdown": 30.95,
+      "sharpe_ratio": 0.09,
+      "expectancy": 0.24
+    },
+    {
+      "tp_multiplier": 2.5,
+      "sl_multiplier": 1.0,
+      "risk_reward_ratio": 2.5,
+      "total_pnl": 104.52,
+      "total_trades": 465,
+      "win_rate": 33.12,
+      "profit_factor": 1.27,
+      "max_drawdown": 27.44,
+      "sharpe_ratio": 0.1,
+      "expectancy": 0.22
+    },
+    {
+      "tp_multiplier": 1.5,
+      "sl_multiplier": 0.5,
+      "risk_reward_ratio": 3.0,
+      "total_pnl": 94.92,
+      "total_trades": 465,
+      "win_rate": 32.9,
+      "profit_factor": 1.48,
+      "max_drawdown": 18.51,
+      "sharpe_ratio": 0.16,
+      "expectancy": 0.2
+    },
+    {
+      "tp_multiplier": 2.0,
+      "sl_multiplier": 1.0,
+      "risk_reward_ratio": 2.0,
+      "total_pnl": 91.76,
+      "total_trades": 465,
+      "win_rate": 37.85,
+      "profit_factor": 1.25,
+      "max_drawdown": 29.46,
+      "sharpe_ratio": 0.1,
+      "expectancy": 0.2
+    },
+    {
+      "tp_multiplier": 1.0,
+      "sl_multiplier": 0.5,
+      "risk_reward_ratio": 2.0,
+      "total_pnl": 63.68,
+      "total_trades": 465,
+      "win_rate": 40.0,
+      "profit_factor": 1.36,
+      "max_drawdown": 10.51,
+      "sharpe_ratio": 0.14,
+      "expectancy": 0.14
+    },
+    {
+      "tp_multiplier": 3.0,
+      "sl_multiplier": 1.5,
+      "risk_reward_ratio": 2.0,
+      "total_pnl": 63.38,
+      "total_trades": 465,
+      "win_rate": 36.34,
+      "profit_factor": 1.11,
+      "max_drawdown": 57.02,
+      "sharpe_ratio": 0.05,
+      "expectancy": 0.14
+    },
+    {
+      "tp_multiplier": 1.5,
+      "sl_multiplier": 1.0,
+      "risk_reward_ratio": 1.5,
+      "total_pnl": 63.11,
+      "total_trades": 465,
+      "win_rate": 43.66,
+      "profit_factor": 1.19,
+      "max_drawdown": 31.21,
+      "sharpe_ratio": 0.08,
+      "expectancy": 0.14
+    },
+    {
+      "tp_multiplier": 2.0,
+      "sl_multiplier": 1.5,
+      "risk_reward_ratio": 1.33,
+      "total_pnl": 60.41,
+      "total_trades": 465,
+      "win_rate": 45.81,
+      "profit_factor": 1.13,
+      "max_drawdown": 43.36,
+      "sharpe_ratio": 0.05,
+      "expectancy": 0.13
+    },
+    {
+      "tp_multiplier": 2.0,
+      "sl_multiplier": 2.0,
+      "risk_reward_ratio": 1.0,
+      "total_pnl": 59.43,
+      "total_trades": 465,
+      "win_rate": 52.69,
+      "profit_factor": 1.11,
+      "max_drawdown": 51.65,
+      "sharpe_ratio": 0.05,
+      "expectancy": 0.13
+    },
+    {
+      "tp_multiplier": 2.5,
+      "sl_multiplier": 1.5,
+      "risk_reward_ratio": 1.67,
+      "total_pnl": 49.28,
+      "total_trades": 465,
+      "win_rate": 40.0,
+      "profit_factor": 1.09,
+      "max_drawdown": 53.42,
+      "sharpe_ratio": 0.04,
+      "expectancy": 0.11
+    },
+    {
+      "tp_multiplier": 1.5,
+      "sl_multiplier": 1.5,
+      "risk_reward_ratio": 1.0,
+      "total_pnl": 43.37,
+      "total_trades": 465,
+      "win_rate": 52.26,
+      "profit_factor": 1.1,
+      "max_drawdown": 46.3,
+      "sharpe_ratio": 0.05,
+      "expectancy": 0.09
+    },
+    {
+      "tp_multiplier": 3.0,
+      "sl_multiplier": 2.0,
+      "risk_reward_ratio": 1.5,
+      "total_pnl": 33.83,
+      "total_trades": 465,
+      "win_rate": 41.94,
+      "profit_factor": 1.05,
+      "max_drawdown": 66.3,
+      "sharpe_ratio": 0.02,
+      "expectancy": 0.07
+    },
+    {
+      "tp_multiplier": 1.0,
+      "sl_multiplier": 1.0,
+      "risk_reward_ratio": 1.0,
+      "total_pnl": 24.47,
+      "total_trades": 465,
+      "win_rate": 50.97,
+      "profit_factor": 1.09,
+      "max_drawdown": 18.79,
+      "sharpe_ratio": 0.04,
+      "expectancy": 0.05
+    },
+    {
+      "tp_multiplier": 1.5,
+      "sl_multiplier": 2.0,
+      "risk_reward_ratio": 0.75,
+      "total_pnl": 24.19,
+      "total_trades": 465,
+      "win_rate": 58.49,
+      "profit_factor": 1.05,
+      "max_drawdown": 62.95,
+      "sharpe_ratio": 0.02,
+      "expectancy": 0.05
+    },
+    {
+      "tp_multiplier": 2.5,
+      "sl_multiplier": 2.0,
+      "risk_reward_ratio": 1.25,
+      "total_pnl": 21.79,
+      "total_trades": 465,
+      "win_rate": 45.81,
+      "profit_factor": 1.03,
+      "max_drawdown": 84.27,
+      "sharpe_ratio": 0.02,
+      "expectancy": 0.05
+    },
+    {
+      "tp_multiplier": 1.0,
+      "sl_multiplier": 2.0,
+      "risk_reward_ratio": 0.5,
+      "total_pnl": -1.9,
+      "total_trades": 465,
+      "win_rate": 66.45,
+      "profit_factor": 1.0,
+      "max_drawdown": 59.26,
+      "sharpe_ratio": -0.0,
+      "expectancy": -0.0
+    },
+    {
+      "tp_multiplier": 1.0,
+      "sl_multiplier": 1.5,
+      "risk_reward_ratio": 0.67,
+      "total_pnl": -4.37,
+      "total_trades": 465,
+      "win_rate": 59.14,
+      "profit_factor": 0.99,
+      "max_drawdown": 43.35,
+      "sharpe_ratio": -0.01,
+      "expectancy": -0.01
+    }
+  ],
+  "candle_profitability_optimization": [
+    {
+      "small_percentile": 40,
+      "big_percentile": 60,
+      "total_pnl": 181.93,
+      "total_trades": 1316,
+      "win_rate": 37.16,
+      "profit_factor": 1.18,
+      "max_drawdown": 76.25,
+      "expectancy": 0.14,
+      "sharpe_ratio": 0.07
+    },
+    {
+      "small_percentile": 40,
+      "big_percentile": 70,
+      "total_pnl": 159.5,
+      "total_trades": 972,
+      "win_rate": 38.07,
+      "profit_factor": 1.21,
+      "max_drawdown": 65.38,
+      "expectancy": 0.16,
+      "sharpe_ratio": 0.08
+    },
+    {
+      "small_percentile": 30,
+      "big_percentile": 60,
+      "total_pnl": 143.75,
+      "total_trades": 990,
+      "win_rate": 37.47,
+      "profit_factor": 1.19,
+      "max_drawdown": 59.73,
+      "expectancy": 0.15,
+      "sharpe_ratio": 0.08
+    },
+    {
+      "small_percentile": 50,
+      "big_percentile": 60,
+      "total_pnl": 136.23,
+      "total_trades": 1656,
+      "win_rate": 35.93,
+      "profit_factor": 1.1,
+      "max_drawdown": 114.62,
+      "expectancy": 0.08,
+      "sharpe_ratio": 0.04
+    },
+    {
+      "small_percentile": 30,
+      "big_percentile": 70,
+      "total_pnl": 129.88,
+      "total_trades": 734,
+      "win_rate": 38.15,
+      "profit_factor": 1.23,
+      "max_drawdown": 42.67,
+      "expectancy": 0.18,
+      "sharpe_ratio": 0.09
+    },
+    {
+      "small_percentile": 50,
+      "big_percentile": 70,
+      "total_pnl": 109.68,
+      "total_trades": 1234,
+      "win_rate": 36.3,
+      "profit_factor": 1.11,
+      "max_drawdown": 102.94,
+      "expectancy": 0.09,
+      "sharpe_ratio": 0.05
+    },
+    {
+      "small_percentile": 40,
+      "big_percentile": 80,
+      "total_pnl": 105.16,
+      "total_trades": 627,
+      "win_rate": 37.48,
+      "profit_factor": 1.21,
+      "max_drawdown": 43.73,
+      "expectancy": 0.17,
+      "sharpe_ratio": 0.08
+    },
+    {
+      "small_percentile": 30,
+      "big_percentile": 80,
+      "total_pnl": 91.76,
+      "total_trades": 465,
+      "win_rate": 37.85,
+      "profit_factor": 1.25,
+      "max_drawdown": 29.46,
+      "expectancy": 0.2,
+      "sharpe_ratio": 0.1
+    },
+    {
+      "small_percentile": 10,
+      "big_percentile": 60,
+      "total_pnl": 89.99,
+      "total_trades": 367,
+      "win_rate": 39.78,
+      "profit_factor": 1.34,
+      "max_drawdown": 20.23,
+      "expectancy": 0.25,
+      "sharpe_ratio": 0.13
+    },
+    {
+      "small_percentile": 20,
+      "big_percentile": 60,
+      "total_pnl": 83.7,
+      "total_trades": 691,
+      "win_rate": 36.9,
+      "profit_factor": 1.16,
+      "max_drawdown": 40.2,
+      "expectancy": 0.12,
+      "sharpe_ratio": 0.07
+    },
+    {
+      "small_percentile": 20,
+      "big_percentile": 70,
+      "total_pnl": 79.18,
+      "total_trades": 517,
+      "win_rate": 37.52,
+      "profit_factor": 1.2,
+      "max_drawdown": 38.3,
+      "expectancy": 0.15,
+      "sharpe_ratio": 0.08
+    },
+    {
+      "small_percentile": 10,
+      "big_percentile": 70,
+      "total_pnl": 70.22,
+      "total_trades": 268,
+      "win_rate": 39.55,
+      "profit_factor": 1.36,
+      "max_drawdown": 27.52,
+      "expectancy": 0.26,
+      "sharpe_ratio": 0.13
+    },
+    {
+      "small_percentile": 50,
+      "big_percentile": 80,
+      "total_pnl": 64.62,
+      "total_trades": 810,
+      "win_rate": 35.68,
+      "profit_factor": 1.09,
+      "max_drawdown": 67.91,
+      "expectancy": 0.08,
+      "sharpe_ratio": 0.04
+    },
+    {
+      "small_percentile": 30,
+      "big_percentile": 90,
+      "total_pnl": 63.33,
+      "total_trades": 235,
+      "win_rate": 39.15,
+      "profit_factor": 1.35,
+      "max_drawdown": 16.45,
+      "expectancy": 0.27,
+      "sharpe_ratio": 0.13
+    },
+    {
+      "small_percentile": 20,
+      "big_percentile": 80,
+      "total_pnl": 61.35,
+      "total_trades": 325,
+      "win_rate": 36.92,
+      "profit_factor": 1.24,
+      "max_drawdown": 24.88,
+      "expectancy": 0.19,
+      "sharpe_ratio": 0.09
+    },
+    {
+      "small_percentile": 20,
+      "big_percentile": 90,
+      "total_pnl": 55.18,
+      "total_trades": 168,
+      "win_rate": 38.69,
+      "profit_factor": 1.43,
+      "max_drawdown": 14.73,
+      "expectancy": 0.33,
+      "sharpe_ratio": 0.15
+    },
+    {
+      "small_percentile": 40,
+      "big_percentile": 90,
+      "total_pnl": 52.54,
+      "total_trades": 313,
+      "win_rate": 36.74,
+      "profit_factor": 1.2,
+      "max_drawdown": 24.87,
+      "expectancy": 0.17,
+      "sharpe_ratio": 0.08
+    },
+    {
+      "small_percentile": 10,
+      "big_percentile": 80,
+      "total_pnl": 51.21,
+      "total_trades": 166,
+      "win_rate": 39.16,
+      "profit_factor": 1.41,
+      "max_drawdown": 14.49,
+      "expectancy": 0.31,
+      "sharpe_ratio": 0.15
+    },
+    {
+      "small_percentile": 50,
+      "big_percentile": 90,
+      "total_pnl": 40.12,
+      "total_trades": 395,
+      "win_rate": 35.95,
+      "profit_factor": 1.11,
+      "max_drawdown": 37.44,
+      "expectancy": 0.1,
+      "sharpe_ratio": 0.05
+    },
+    {
+      "small_percentile": 10,
+      "big_percentile": 90,
+      "total_pnl": 36.98,
+      "total_trades": 80,
+      "win_rate": 41.25,
+      "profit_factor": 1.64,
+      "max_drawdown": 9.01,
+      "expectancy": 0.46,
+      "sharpe_ratio": 0.21
+    }
+  ],
+  "grid_optimization": [
+    {
+      "grid_spacing_atr": 2.0,
+      "lot_multiplier": 1.0,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 2.0,
+      "lot_multiplier": 1.05,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 2.0,
+      "lot_multiplier": 1.1,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 2.0,
+      "lot_multiplier": 1.15,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 2.0,
+      "lot_multiplier": 1.2,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 2.5,
+      "lot_multiplier": 1.0,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 2.5,
+      "lot_multiplier": 1.05,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 2.5,
+      "lot_multiplier": 1.1,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 2.5,
+      "lot_multiplier": 1.15,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 2.5,
+      "lot_multiplier": 1.2,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 3.0,
+      "lot_multiplier": 1.0,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 3.0,
+      "lot_multiplier": 1.05,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 3.0,
+      "lot_multiplier": 1.1,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 3.0,
+      "lot_multiplier": 1.15,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 3.0,
+      "lot_multiplier": 1.2,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 3.5,
+      "lot_multiplier": 1.0,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 3.5,
+      "lot_multiplier": 1.05,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 3.5,
+      "lot_multiplier": 1.1,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 3.5,
+      "lot_multiplier": 1.15,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 3.5,
+      "lot_multiplier": 1.2,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 4.0,
+      "lot_multiplier": 1.0,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 4.0,
+      "lot_multiplier": 1.05,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 4.0,
+      "lot_multiplier": 1.1,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 4.0,
+      "lot_multiplier": 1.15,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    },
+    {
+      "grid_spacing_atr": 4.0,
+      "lot_multiplier": 1.2,
+      "baseline_pnl": 91.76,
+      "baseline_trades": 465,
+      "baseline_win_rate": 37.85,
+      "estimated_improvement": "Grid simulation pending",
+      "note": "Use these as starting points for live grid testing"
+    }
+  ]
+}
