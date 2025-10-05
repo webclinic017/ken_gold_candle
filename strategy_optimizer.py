@@ -300,7 +300,11 @@ class StrategyAnalyzer:
         self,
         small_range: Tuple[int, int] = (10, 40),
         big_range: Tuple[int, int] = (70, 95),
-        step: int = 5
+        step: int = 5,
+        tp_atr_mult: float = 2.0,
+        sl_atr_mult: float = 1.0,
+        start_hour: int = None,
+        end_hour: int = None
     ) -> pd.DataFrame:
         """
         Test multiple combinations of percentile thresholds.
@@ -309,13 +313,22 @@ class StrategyAnalyzer:
             small_range: Range of small candle percentiles to test
             big_range: Range of big candle percentiles to test
             step: Step size for iteration
+            tp_atr_mult: Take profit multiplier (default: 2.0x ATR)
+            sl_atr_mult: Stop loss multiplier (default: 1.0x ATR)
+            start_hour: Start hour for time filter (0-23), None to disable
+            end_hour: End hour for time filter (0-23), None to disable
         
         Returns:
-            DataFrame with results for each combination
+            DataFrame with results for each combination, ranked by profitability
         """
         print("\n" + "="*70)
         print("OPTIMIZING PERCENTILE THRESHOLDS")
         print("="*70)
+        print(f"Using TP/SL: {tp_atr_mult}x / {sl_atr_mult}x ATR")
+        if start_hour is not None and end_hour is not None:
+            print(f"Time Filter: {start_hour}:00 - {end_hour}:00")
+        else:
+            print("Time Filter: Disabled (24/7 trading)")
         
         results = []
         small_percentiles = range(small_range[0], small_range[1] + 1, step)
@@ -329,24 +342,34 @@ class StrategyAnalyzer:
                 test_count += 1
                 print(f"Testing {test_count}/{total_tests}: Small={small_p}%, Big={big_p}%", end='\r')
                 
-                metrics = self.test_two_candle_pattern(small_p, big_p)
+                # Run backtest to get profitability metrics
+                backtest = self.backtest_strategy(
+                    small_percentile=small_p,
+                    big_percentile=big_p,
+                    tp_atr_mult=tp_atr_mult,
+                    sl_atr_mult=sl_atr_mult,
+                    use_atr=False,
+                    start_hour=start_hour,
+                    end_hour=end_hour
+                )
                 
                 results.append({
                     'small_percentile': small_p,
                     'big_percentile': big_p,
-                    'total_signals': metrics['total_signals'],
-                    'buy_signals': metrics['buy_signals'],
-                    'sell_signals': metrics['sell_signals'],
-                    'filtered_signals': metrics['filtered_signals'],
-                    'signal_rate': metrics['total_signals'] / len(self.data) * 100
+                    'total_trades': backtest['total_trades'],
+                    'total_pnl': round(backtest['total_pnl'], 2),
+                    'win_rate': round(backtest['win_rate'], 2),
+                    'profit_factor': round(backtest['profit_factor'], 2),
+                    'max_drawdown': round(backtest['max_drawdown'], 2),
+                    'expectancy': round(backtest['expectancy'], 2)
                 })
         
         print()  # New line after progress
         df = pd.DataFrame(results)
-        df = df.sort_values('total_signals', ascending=False)
+        df = df.sort_values('total_pnl', ascending=False)
         
         print(f"\n✅ Tested {len(df)} combinations")
-        print("\nTop 10 Configurations by Signal Count:")
+        print("\nTop 10 Configurations by Profitability:")
         print(df.head(10).to_string(index=False))
         
         return df
@@ -355,7 +378,11 @@ class StrategyAnalyzer:
         self,
         small_range: Tuple[float, float] = (0.3, 1.0),
         big_range: Tuple[float, float] = (1.0, 2.5),
-        step: float = 0.1
+        step: float = 0.1,
+        tp_atr_mult: float = 2.0,
+        sl_atr_mult: float = 1.0,
+        start_hour: int = None,
+        end_hour: int = None
     ) -> pd.DataFrame:
         """
         Test multiple combinations of ATR multipliers.
@@ -364,13 +391,22 @@ class StrategyAnalyzer:
             small_range: Range of small candle multipliers to test
             big_range: Range of big candle multipliers to test
             step: Step size for iteration
+            tp_atr_mult: Take profit multiplier (default: 2.0x ATR)
+            sl_atr_mult: Stop loss multiplier (default: 1.0x ATR)
+            start_hour: Start hour for time filter (0-23), None to disable
+            end_hour: End hour for time filter (0-23), None to disable
         
         Returns:
-            DataFrame with results for each combination
+            DataFrame with results for each combination, ranked by profitability
         """
         print("\n" + "="*70)
         print("OPTIMIZING ATR MULTIPLIERS")
         print("="*70)
+        print(f"Using TP/SL: {tp_atr_mult}x / {sl_atr_mult}x ATR")
+        if start_hour is not None and end_hour is not None:
+            print(f"Time Filter: {start_hour}:00 - {end_hour}:00")
+        else:
+            print("Time Filter: Disabled (24/7 trading)")
         
         results = []
         
@@ -386,24 +422,36 @@ class StrategyAnalyzer:
                 test_count += 1
                 print(f"Testing {test_count}/{total_tests}: Small={small_m:.1f}x, Big={big_m:.1f}x", end='\r')
                 
-                metrics = self.test_atr_pattern(small_m, big_m)
+                # Run backtest to get profitability metrics
+                backtest = self.backtest_strategy(
+                    small_percentile=30,  # Not used when use_atr=True
+                    big_percentile=80,    # Not used when use_atr=True
+                    tp_atr_mult=tp_atr_mult,
+                    sl_atr_mult=sl_atr_mult,
+                    use_atr=True,
+                    small_atr_mult=small_m,
+                    big_atr_mult=big_m,
+                    start_hour=start_hour,
+                    end_hour=end_hour
+                )
                 
                 results.append({
                     'small_multiplier': round(small_m, 2),
                     'big_multiplier': round(big_m, 2),
-                    'total_signals': metrics['total_signals'],
-                    'buy_signals': metrics['buy_signals'],
-                    'sell_signals': metrics['sell_signals'],
-                    'filtered_signals': metrics['filtered_signals'],
-                    'signal_rate': metrics['total_signals'] / len(self.data) * 100
+                    'total_trades': backtest['total_trades'],
+                    'total_pnl': round(backtest['total_pnl'], 2),
+                    'win_rate': round(backtest['win_rate'], 2),
+                    'profit_factor': round(backtest['profit_factor'], 2),
+                    'max_drawdown': round(backtest['max_drawdown'], 2),
+                    'expectancy': round(backtest['expectancy'], 2)
                 })
         
         print()  # New line after progress
         df = pd.DataFrame(results)
-        df = df.sort_values('total_signals', ascending=False)
+        df = df.sort_values('total_pnl', ascending=False)
         
         print(f"\n✅ Tested {len(df)} combinations")
-        print("\nTop 10 Configurations by Signal Count:")
+        print("\nTop 10 Configurations by Profitability:")
         print(df.head(10).to_string(index=False))
         
         return df
@@ -1286,7 +1334,10 @@ def main():
     
     if args.optimize_percentile or run_all:
         print("\n" + "🔍 Running Percentile Optimization...")
-        percentile_results = analyzer.optimize_percentile_thresholds()
+        percentile_results = analyzer.optimize_percentile_thresholds(
+            start_hour=args.start_hour,
+            end_hour=args.end_hour
+        )
         results['percentile_optimization'] = percentile_results.to_dict('records')
         
         # Update recommendation with best result
@@ -1294,11 +1345,17 @@ def main():
         print(f"\n🏆 BEST PERCENTILE CONFIG:")
         print(f"   Small: {best['small_percentile']}%")
         print(f"   Big: {best['big_percentile']}%")
-        print(f"   Signals: {best['total_signals']}")
+        print(f"   Total P&L: ${best['total_pnl']:.2f}")
+        print(f"   Trades: {best['total_trades']}")
+        print(f"   Win Rate: {best['win_rate']:.1f}%")
+        print(f"   Profit Factor: {best['profit_factor']:.2f}")
     
     if args.optimize_atr or run_all:
         print("\n" + "🔍 Running ATR Optimization...")
-        atr_results = analyzer.optimize_atr_multipliers()
+        atr_results = analyzer.optimize_atr_multipliers(
+            start_hour=args.start_hour,
+            end_hour=args.end_hour
+        )
         results['atr_optimization'] = atr_results.to_dict('records')
         
         # Update recommendation with best result
@@ -1306,7 +1363,10 @@ def main():
         print(f"\n🏆 BEST ATR CONFIG:")
         print(f"   Small: {best['small_multiplier']}x")
         print(f"   Big: {best['big_multiplier']}x")
-        print(f"   Signals: {best['total_signals']}")
+        print(f"   Total P&L: ${best['total_pnl']:.2f}")
+        print(f"   Trades: {best['total_trades']}")
+        print(f"   Win Rate: {best['win_rate']:.1f}%")
+        print(f"   Profit Factor: {best['profit_factor']:.2f}")
     
     if args.optimize_tp_sl or run_all:
         print("\n" + "💰 Running TP/SL Optimization...")
