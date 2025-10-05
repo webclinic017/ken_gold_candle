@@ -436,8 +436,15 @@ class GoldCandleKenStrategy(bt.Strategy):
         # 5) Time filter
         if self.ENABLE_TIME_FILTER:
             hour = self.data_datetime.time(0).hour
-            if hour < self.START_HOUR or hour >= self.END_HOUR:
-                return
+            # Handle time windows that cross midnight (e.g., START_HOUR=20, END_HOUR=5)
+            if self.START_HOUR <= self.END_HOUR:
+                # Normal case: trade between START_HOUR and END_HOUR
+                if hour < self.START_HOUR or hour >= self.END_HOUR:
+                    return
+            else:
+                # Crosses midnight: trade if hour >= START_HOUR OR hour < END_HOUR
+                if hour < self.START_HOUR and hour >= self.END_HOUR:
+                    return
 
         # 6) Spread filter using bid/ask when available
         if self.MAX_SPREAD_POINTS is not None:

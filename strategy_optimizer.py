@@ -649,8 +649,15 @@ class StrategyAnalyzer:
             # Time filter (mimics strategy's ENABLE_TIME_FILTER)
             if start_hour is not None and end_hour is not None:
                 current_hour = self.data.index[i].hour
-                if current_hour < start_hour or current_hour >= end_hour:
-                    continue
+                # Handle time windows that cross midnight (e.g., 20:00 to 05:00)
+                if start_hour <= end_hour:
+                    # Normal case: trade between start_hour and end_hour
+                    if current_hour < start_hour or current_hour >= end_hour:
+                        continue
+                else:
+                    # Crosses midnight: trade if hour >= start_hour OR hour < end_hour
+                    if current_hour < start_hour and current_hour >= end_hour:
+                        continue
             
             # Get ATR for this bar
             atr_value = self.data['atr_14'].iloc[i]
