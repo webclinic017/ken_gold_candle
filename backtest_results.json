@@ -1,0 +1,45 @@
+[
+  {
+    "run_name": "Backtest Run",
+    "timestamp": "2025-10-07T03:34:46.621658",
+    "portfolio": {
+      "starting_value": 10000.0,
+      "ending_value": 10069.925639927198,
+      "total_return": 69.92563992719806,
+      "return_pct": 0.6992563992719806
+    },
+    "performance": {
+      "sharpe_ratio": 5.690240998264769,
+      "max_drawdown_pct": 0.2849198436215406,
+      "max_drawdown_money": 28.77319693379468,
+      "avg_daily_return": 0.0005806857826750176,
+      "total_compounded_return": 0.006968229392100211,
+      "sqn": 1.22870250530726,
+      "vwr": 11.577807917650276
+    },
+    "trades": {
+      "total": 118,
+      "won": 55,
+      "lost": 63,
+      "win_rate": 46.61016949152542,
+      "win_streak": 5,
+      "loss_streak": 5,
+      "avg_duration_bars": 5.398305084745763
+    },
+    "pnl": {
+      "net_total": 69.92563992719646,
+      "net_avg": 0.5925901688745463,
+      "profit_factor": 1.4886892584347384,
+      "won": {
+        "total": 213.01378586100884,
+        "avg": 3.8729779247456153,
+        "max": 38.54972191379972
+      },
+      "lost": {
+        "total": -143.08814593381243,
+        "avg": -2.2712404116478164,
+        "max": -11.190279666600054
+      }
+    }
+  }
+]

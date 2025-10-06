@@ -16,11 +16,32 @@ Adaptive Candle Sizing:
 - Percentile Method: Analyzes last 100 candles and uses percentile thresholds (updates every 100 bars)
 - Mutually exclusive: Enable only one method via USE_ATR_CALCULATION or USE_PERCENTILE_CALCULATION
 
-ATR-Based TP/SL (NEW):
+ATR-Based TP/SL:
 - Use USE_ATR_TP_SL = True to enable ATR-based take profit and stop loss
 - TP/SL automatically adapt to current market volatility
 - Set TP_ATR_MULTIPLIER and SL_ATR_MULTIPLIER from optimizer results
 - Example: TP = 2.0x ATR, SL = 1.0x ATR (from strategy_optimizer.py --optimize-tp-sl)
+
+Entry Timing Fixes (High Impact):
+- Fix A: ENTER_ON_OPEN = True (default) - Enter at breakout START (bar open) vs END (bar close)
+  * Catches the actual breakout move instead of entering after it completes
+  * Works in both backtesting and live trading
+- Fix B: USE_LIMIT_ENTRY = False (default) - Wait for 50% pullback before entering
+  * Instead of chasing breakouts, wait for price to retrace to limit level
+  * Only enters if price comes back to test the breakout (better entry price)
+  * Cancels after 5 bars if not filled
+- Fix C: USE_MOMENTUM_FILTER = True (default) - Confirm breakout strength before entering
+  * Checks candle closes near high/low (MIN_CANDLE_BODY_RATIO = 0.7)
+  * Rejects exhausted moves (MAX_EXHAUSTION_RATIO = 3.0x ATR)
+  * Optional volume confirmation (CHECK_VOLUME = False by default)
+
+Counter-Trend Fade Strategy:
+- ENABLE_COUNTER_TREND_FADE = False (default) - Fade breakouts instead of following them
+  * Sells on bullish breakouts (fade retail buying exhaustion)
+  * Buys on bearish breakouts (fade retail selling exhaustion)
+  * Logic: Big breakout candles often represent exhaustion/traps in algo-dominated markets
+  * Works best in ranging/choppy markets where breakouts fail
+  * All pattern detection remains the same, only entry direction is reversed
 
 Account Optimization:
 - Optimized for $10,000 account with minimum lot size (0.01 lots)
@@ -44,9 +65,9 @@ class GoldCandleKenStrategy(bt.Strategy):
     # Hardcoded defaults from provided template
     # --- Core Strategy Settings ---
     MAGIC_NUMBER = 69
-    LOT_SIZE = 0.01  # Minimum broker lot size for XAUUSD (1 oz = ~$3,400)
-    MIN_LOT_SIZE = 0.01  # Broker's minimum lot size
-    LOT_STEP = 0.01  # Broker's lot size increment
+    LOT_SIZE = 0.03  # Minimum broker lot size for XAUUSD (1 oz = ~$3,400)
+    MIN_LOT_SIZE = 0.03  # Broker's minimum lot size
+    LOT_STEP = 0.03  # Broker's lot size increment
     
     # --- Adaptive Candle Size Settings ---
     USE_ATR_CALCULATION = True  # Dynamically set candle size based on ATR multipliers
@@ -57,57 +78,57 @@ class GoldCandleKenStrategy(bt.Strategy):
     SMALL_CANDLE_POINTS = 50  # Decreased from 140 - allow smaller setup candles
     
     # ATR-based adaptive settings (when USE_ATR_CALCULATION = True)
-    ATR_SMALL_MULTIPLIER = 0.8  # Small candle = 0.5x ATR (~ 30th percentile)
-    ATR_BIG_MULTIPLIER = 1.1    # Big candle = 1.5x ATR (~ 75th percentile)
+    ATR_SMALL_MULTIPLIER = 0.45  # Small candle = 0.5x ATR (~ 30th percentile)
+    ATR_BIG_MULTIPLIER = 1.6  # Big candle = 1.5x ATR (~ 75th percentile)
     
     # Percentile-based adaptive settings (when USE_PERCENTILE_CALCULATION = True)
-    PERCENTILE_LOOKBACK = 100    # Number of candles to analyze
+    PERCENTILE_LOOKBACK = 60    # Number of candles to analyze
     PERCENTILE_UPDATE_FREQ = 100 # Recalculate every N candles
     SMALL_CANDLE_PERCENTILE = 40 # Percentile for small candle threshold
     BIG_CANDLE_PERCENTILE = 60   # Percentile for big candle threshold
 
     # --- Take Profit / Stop Loss Settings ---
     # Choose between fixed points OR ATR-based (not both)
-    USE_ATR_TP_SL = False  # If True, use ATR multipliers; if False, use fixed points
+    USE_ATR_TP_SL = True  # If True, use ATR multipliers; if False, use fixed points
     
     # Fixed point-based TP/SL (used when USE_ATR_TP_SL = False)
-    TAKE_PROFIT_POINTS = 150  # Fixed points
-    POSITION_SL_POINTS = 50  # Fixed points (only if ENABLE_POSITION_SL = True)
+    TAKE_PROFIT_POINTS = 200  # Fixed points
+    POSITION_SL_POINTS = 100  # Fixed points (only if ENABLE_POSITION_SL = True)
     
     # ATR-based TP/SL (used when USE_ATR_TP_SL = True)
-    TP_ATR_MULTIPLIER = 3.0  # Take profit = 2.0 x ATR (from optimizer)
-    SL_ATR_MULTIPLIER = 2.0  # Stop loss = 1.0 x ATR (from optimizer)
+    TP_ATR_MULTIPLIER = 2.8  # Take profit = 2.0 x ATR (optimized 2024-09-23 to 2024-10-07)
+    SL_ATR_MULTIPLIER = 0.4  # Stop loss = 0.5 x ATR (optimized 2024-09-23 to 2024-10-07)
 
     # --- Grid Settings ---
     ENABLE_GRID = False
-    ATR_MULTIPLIER_STEP = 3.5  # Increased from 2.5 - wider spacing between grid levels
-    LOT_MULTIPLIER = 1.05  # Decreased from 1.1 - slower position growth
-    MAX_OPEN_TRADES = 2  # Limit to 2 positions for $10k account with 0.01 min lot
+    ATR_MULTIPLIER_STEP = 2.0  # Increased from 2.5 - wider spacing between grid levels
+    LOT_MULTIPLIER = 1.1  # Decreased from 1.1 - slower position growth
+    MAX_OPEN_TRADES = 3  # Limit to 2 positions for $10k account with 0.01 min lot
     GRID_PROFIT_POINTS = 150  # Match regular TP - increased from 20
 
     # --- Position Stop Loss Settings ---
-    ENABLE_POSITION_SL = False  # Enable static stop loss per position
+    ENABLE_POSITION_SL = True  # Enable static stop loss per position
 
     # ENABLE_TRAILING_POSITION_SL: Trails the price of your individual position
     # Moves the stop-loss as price moves in your favor
     # Operates at the position level (per trade)
-    ENABLE_TRAILING_POSITION_SL = True
-    TRAILING_POSITION_SL_POINTS = 50  # Increased from 20 if you enable it
+    ENABLE_TRAILING_POSITION_SL = False
+    TRAILING_POSITION_SL_POINTS = 100  # Increased from 20 if you enable it
 
     # --- Account Equity Protection Settings ---
     # The hard stop was triggering with a $384 loss on a position that moved IN FAVOR
     # This suggests a broker configuration issue with contract multiplier
     # ENABLE_EQUITY_STOP: Tracks maximum account drawdown from all-time peak
     # Set MAX_DRAWDOWN_PERCENT to limit overall account risk
-    ENABLE_EQUITY_STOP = False  # Set to True once broker multiplier is confirmed
-    MAX_DRAWDOWN_PERCENT = 1.0  # Increased to 10% while debugging (was 3.0%)
+    ENABLE_EQUITY_STOP = True  # Set to True once broker multiplier is confirmed
+    MAX_DRAWDOWN_PERCENT = 1.5  # Increased to 10% while debugging (was 3.0%)
 
     ENABLE_TRAILING_EQUITY_STOP = False
     # The trailing equity stop ONLY tracks equity when you have an open position, and it resets to None when flat. This means:
     # It's designed to protect profits on individual trades, not overall account drawdown
     # It measures the drop from the peak while a position is open, not from your account's all-time high
     # When you close a position and open a new one, the peak resets
-    TRAILING_EQUITY_DROP_PERCENT = 1.0
+    TRAILING_EQUITY_DROP_PERCENT = 0.5
     MAX_TRAILING_STOPS = 3
 
     # --- Position Sizing Limits ---
@@ -116,7 +137,7 @@ class GoldCandleKenStrategy(bt.Strategy):
     # - Grid (2 positions): 0.01 + 0.0105 lots = ~$7,907 (79.07% of account)
     # - Grid (3 positions): Would require ~$12,159 (121.59% - needs leverage)
     # Increasing this will allow us to trade with larger lots , but involves more risk
-    MAX_POSITION_SIZE_PERCENT = 100.0  # Allows 2 grid positions with margin buffer
+    MAX_POSITION_SIZE_PERCENT = 150.0  # Allows 2 grid positions with margin buffer
     
     TRADING_DIRECTION = 0
     MAX_SPREAD_POINTS = 20
@@ -125,11 +146,31 @@ class GoldCandleKenStrategy(bt.Strategy):
     MA_METHOD = 1
     MA_APPLIED_PRICE = 1
     ENABLE_TIME_FILTER = True
-    START_HOUR = 5
-    END_HOUR = 12
+    START_HOUR = 4  # Optimized time filter: 4-13 (best P&L and profit factor)
+    END_HOUR = 13   # Optimized time filter: 4-13 (best P&L and profit factor)
 
     # --- Indicator Settings ---
     ATR_PERIOD = 14
+
+    # --- Entry Timing Fixes ---
+    # Fix A: Enter at breakout START (open) instead of END (close)
+    ENTER_ON_OPEN = True  # Enter at bar open (breakout start) vs bar close (breakout end)
+    
+    # Fix B: Wait for pullback before entering (limit order behavior)
+    USE_LIMIT_ENTRY = False  # Wait for 50% retracement before entering
+    LIMIT_RETRACEMENT_PERCENT = 50.0  # Wait for 50% pullback of big candle
+    
+    # Fix C: Momentum confirmation filters
+    USE_MOMENTUM_FILTER = False  # Confirm breakout strength before entering
+    MIN_CANDLE_BODY_RATIO = 0.7  # Candle must close in top/bottom 30% (0.7 = 70%)
+    CHECK_VOLUME = False  # Require above-average volume (needs volume data)
+    MAX_EXHAUSTION_RATIO = 3.0  # Reject if big candle > 3x average (exhausted move)
+    
+    # --- Counter-Trend Fade Strategy ---
+    # Fade breakouts instead of following them (sells breakouts, buys breakdowns)
+    # Logic: Big bullish candle = exhaustion/retail trap → SELL to fade
+    #        Big bearish candle = exhaustion/retail trap → BUY to fade
+    ENABLE_COUNTER_TREND_FADE = False  # Set to True to reverse entry direction
 
     # --- Logging Settings ---
     LOG_LEVEL = logging.INFO  # INFO for production, DEBUG for development
@@ -241,6 +282,9 @@ class GoldCandleKenStrategy(bt.Strategy):
         self.bar_count = 0  # Track bars for percentile recalculation
         self.adaptive_big_candle = self.BIG_CANDLE_POINTS  # Current adaptive threshold
         self.adaptive_small_candle = self.SMALL_CANDLE_POINTS  # Current adaptive threshold
+        
+        # Limit order tracking (Fix B)
+        self.pending_limit_order = None  # {direction: 1|-1, limit_price: float, signal_bar: int}
 
     # Order and Trade Notifications
     def notify_order(self, order):
@@ -394,10 +438,13 @@ class GoldCandleKenStrategy(bt.Strategy):
         if self.USE_ATR_CALCULATION or self.USE_PERCENTILE_CALCULATION:
             self._update_adaptive_candle_sizes()
             
-        # 1) Equity stops - CHECK FIRST before any position management
+        # 1) Equity stops - CHECK DRAWDOWN LIMIT FIRST
         if self.ENABLE_EQUITY_STOP:
             self._check_equity_drawdown_stop()
-            if self.equity_stop_triggered:
+            # Check if we're AT THE LIMIT right now (prevents new entries)
+            if self._should_stop_for_drawdown():
+                if self.position.size != 0:
+                    self.close()
                 return
         
         if self.ENABLE_TRAILING_EQUITY_STOP:
@@ -405,21 +452,23 @@ class GoldCandleKenStrategy(bt.Strategy):
             if self.equity_stop_triggered:
                 return
 
-        # 2) Trailing stop per-position (only for single positions, not grid)
-        if self.ENABLE_TRAILING_POSITION_SL and self.position.size != 0 and len(self._entries) <= 1:
+        # 2) Trailing stop per-position - works for all positions
+        if self.ENABLE_TRAILING_POSITION_SL and self.position.size != 0:
             if self._trail_individual_stop():
                 return  # Position closed, don't process new entries this bar
 
-        # 3) Manage active position: single vs grid basket (runs every tick)
+        # 3) Manage active positions (runs every tick)
         if self.position.size != 0:
             # Log actual broker position state periodically (every 10 bars)
             if len(self.data_close) % 10 == 0:
                 self._log_position_state()
             
-            if len(self._entries) <= 1:
-                if self._manage_single_targets():
-                    return  # Position closed, don't process new entries this bar
-            else:
+            # ALWAYS check individual TP/SL first
+            if self._manage_single_targets():
+                return  # Position closed, don't process new entries this bar
+            
+            # THEN optionally check grid basket logic
+            if self.ENABLE_GRID and len(self._entries) > 1:
                 if self._manage_grid():
                     return  # Position closed, don't process new entries this bar
         else:
@@ -429,11 +478,16 @@ class GoldCandleKenStrategy(bt.Strategy):
                 self.trailing_stop_level = None
                 self._last_entry_price = None
 
-        # 4) Check for new entry signals ONLY on new completed bars
+        # 4) Check pending limit orders (Fix B) - runs every tick when there's a pending order
+        if self.USE_LIMIT_ENTRY and self.pending_limit_order is not None:
+            if self._check_limit_order():
+                return  # Limit order filled or cancelled, don't process new signals
+
+        # 5) Check for new entry signals ONLY on new completed bars
         if not self._is_new_bar():
             return
 
-        # 5) Time filter
+        # 6) Time filter
         if self.ENABLE_TIME_FILTER:
             hour = self.data_datetime.time(0).hour
             # Handle time windows that cross midnight (e.g., START_HOUR=20, END_HOUR=5)
@@ -446,14 +500,14 @@ class GoldCandleKenStrategy(bt.Strategy):
                 if hour < self.START_HOUR and hour >= self.END_HOUR:
                     return
 
-        # 6) Spread filter using bid/ask when available
+        # 7) Spread filter using bid/ask when available
         if self.MAX_SPREAD_POINTS is not None:
             spread_pts = self._spread_points()
             if spread_pts > self.MAX_SPREAD_POINTS:
                 self.log(f"Spread too high: {spread_pts:.2f} > {self.MAX_SPREAD_POINTS}")
                 return
 
-        # 7) Check pattern on completed bars: use [-1] and [-2]
+        # 8) Check pattern on completed bars: use [-1] and [-2]
         # Need at least 2 completed bars
         if len(self.data_close) < 2:
             return
@@ -470,15 +524,45 @@ class GoldCandleKenStrategy(bt.Strategy):
             bullish_setup = self.data_close[-2] > self.data_open[-2]
             bearish_setup = self.data_close[-2] < self.data_open[-2]
 
+            # Fix C: Momentum confirmation filters
+            if self.USE_MOMENTUM_FILTER:
+                if not self._confirm_momentum(bullish_setup):
+                    return
+
             # Trend check using most recent completed bar
             allow_buy = self.TRADING_DIRECTION in (0, 1)
             allow_sell = self.TRADING_DIRECTION in (0, 2)
             trend_up = self.data_close[-1] > self.ma[-1]
 
-            if bullish_setup and allow_buy and (not self.ENABLE_TREND_FILTER or trend_up):
-                self._open_trade(is_buy=True)
-            elif bearish_setup and allow_sell and (not self.ENABLE_TREND_FILTER or not trend_up):
-                self._open_trade(is_buy=False)
+            # Counter-Trend Fade: Reverse entry direction to fade breakouts
+            if self.ENABLE_COUNTER_TREND_FADE:
+                # FADE LOGIC: Big bullish candle = SELL, big bearish candle = BUY
+                if bullish_setup and allow_sell and (not self.ENABLE_TREND_FILTER or trend_up):
+                    # Bullish breakout detected → SELL (fade the move)
+                    if self.USE_LIMIT_ENTRY:
+                        self._create_limit_order(is_buy=False)
+                    else:
+                        self._open_trade(is_buy=False)
+                elif bearish_setup and allow_buy and (not self.ENABLE_TREND_FILTER or not trend_up):
+                    # Bearish breakout detected → BUY (fade the move)
+                    if self.USE_LIMIT_ENTRY:
+                        self._create_limit_order(is_buy=True)
+                    else:
+                        self._open_trade(is_buy=True)
+            else:
+                # STANDARD LOGIC: Follow breakouts
+                if bullish_setup and allow_buy and (not self.ENABLE_TREND_FILTER or trend_up):
+                    # Fix B: Use limit order entry (wait for pullback) or immediate entry
+                    if self.USE_LIMIT_ENTRY:
+                        self._create_limit_order(is_buy=True)
+                    else:
+                        self._open_trade(is_buy=True)
+                elif bearish_setup and allow_sell and (not self.ENABLE_TREND_FILTER or not trend_up):
+                    # Fix B: Use limit order entry (wait for pullback) or immediate entry
+                    if self.USE_LIMIT_ENTRY:
+                        self._create_limit_order(is_buy=False)
+                    else:
+                        self._open_trade(is_buy=False)
     
     def _is_new_bar(self) -> bool:
         """Check if a new bar has formed (mimics MT5 IsNewBar)"""
@@ -487,79 +571,165 @@ class GoldCandleKenStrategy(bt.Strategy):
             self.last_bar_datetime = current_dt
             return True
         return False
+    
+    def _confirm_momentum(self, is_bullish: bool) -> bool:
+        """
+        Fix C: Confirm breakout momentum before entering
+        Returns True if momentum is strong enough, False otherwise
+        """
+        # Check the big candle (trigger bar = -1)
+        candle_open = self.data_open[-1]
+        candle_close = self.data_close[-1]
+        candle_high = self.data_high[-1]
+        candle_low = self.data_low[-1]
+        candle_range = candle_high - candle_low
+        
+        if candle_range <= 0:
+            self.log("Momentum filter: Zero range candle rejected", "DEBUG")
+            return False
+        
+        # 1. Check candle body ratio (must close near high for bulls, near low for bears)
+        if is_bullish:
+            # For bullish: candle should close in top 30% (body ratio > 0.7)
+            body_position = (candle_close - candle_low) / candle_range
+            if body_position < self.MIN_CANDLE_BODY_RATIO:
+                self.log(f"Momentum filter: Bullish candle body ratio {body_position:.2f} < {self.MIN_CANDLE_BODY_RATIO}", "DEBUG")
+                return False
+        else:
+            # For bearish: candle should close in bottom 30% (body ratio > 0.7 from top)
+            body_position = (candle_high - candle_close) / candle_range
+            if body_position < self.MIN_CANDLE_BODY_RATIO:
+                self.log(f"Momentum filter: Bearish candle body ratio {body_position:.2f} < {self.MIN_CANDLE_BODY_RATIO}", "DEBUG")
+                return False
+        
+        # 2. Check for exhaustion (candle too large compared to average)
+        if self.MAX_EXHAUSTION_RATIO > 0:
+            current_atr = float(self.atr[-1])  # Use ATR from trigger bar
+            if current_atr > 0:
+                exhaustion_ratio = candle_range / current_atr
+                if exhaustion_ratio > self.MAX_EXHAUSTION_RATIO:
+                    self.log(f"Momentum filter: Exhaustion detected {exhaustion_ratio:.2f}x ATR > {self.MAX_EXHAUSTION_RATIO}x", "DEBUG")
+                    return False
+        
+        # 3. Optional: Check volume (if available)
+        if self.CHECK_VOLUME and hasattr(self.datas[0], 'volume'):
+            # Add volume check here if needed
+            pass
+        
+        self.log(f"Momentum filter: PASSED for {'bullish' if is_bullish else 'bearish'} breakout", "DEBUG")
+        return True
+    
+    def _create_limit_order(self, is_buy: bool):
+        """
+        Fix B: Create a pending limit order at pullback level
+        Instead of entering immediately, wait for price to retrace 50% of big candle
+        """
+        # Calculate 50% retracement of the big candle (bar -1)
+        big_candle_high = self.data_high[-1]
+        big_candle_low = self.data_low[-1]
+        big_candle_mid = (big_candle_high + big_candle_low) / 2.0
+        
+        # Calculate retracement level (50% by default)
+        retracement_factor = self.LIMIT_RETRACEMENT_PERCENT / 100.0
+        
+        if is_buy:
+            # For bullish breakout, wait for pullback to 50% of big candle
+            limit_price = big_candle_low + (big_candle_high - big_candle_low) * retracement_factor
+            direction_str = "BUY"
+        else:
+            # For bearish breakout, wait for pullback to 50% of big candle
+            limit_price = big_candle_high - (big_candle_high - big_candle_low) * retracement_factor
+            direction_str = "SELL"
+        
+        # Store pending limit order
+        self.pending_limit_order = {
+            "direction": 1 if is_buy else -1,
+            "limit_price": limit_price,
+            "signal_bar": len(self.data_close),
+            "is_buy": is_buy
+        }
+        
+        self.log(f"LIMIT ORDER CREATED: {direction_str} @ {limit_price:.5f}")
+        self.log(f"   Big Candle: Low={big_candle_low:.5f}, High={big_candle_high:.5f}, Mid={big_candle_mid:.5f}")
+        self.log(f"   Waiting for {self.LIMIT_RETRACEMENT_PERCENT:.0f}% pullback to {limit_price:.5f}")
+    
+    def _check_limit_order(self) -> bool:
+        """
+        Fix B: Check if pending limit order should be filled or cancelled
+        Returns True if order was processed (filled or cancelled), False otherwise
+        """
+        if self.pending_limit_order is None:
+            return False
+        
+        current_bar = len(self.data_close)
+        signal_bar = self.pending_limit_order["signal_bar"]
+        bars_since_signal = current_bar - signal_bar
+        
+        # Cancel limit order after 5 bars (signal likely expired)
+        MAX_BARS_PENDING = 5
+        if bars_since_signal > MAX_BARS_PENDING:
+            self.log(f"Limit order CANCELLED: {bars_since_signal} bars since signal (max {MAX_BARS_PENDING})")
+            self.pending_limit_order = None
+            return True
+        
+        # Check if price touched the limit level
+        is_buy = self.pending_limit_order["is_buy"]
+        limit_price = self.pending_limit_order["limit_price"]
+        current_high = self.data_high[0]
+        current_low = self.data_low[0]
+        
+        order_filled = False
+        if is_buy:
+            # For buy limit, check if price went down to or below limit
+            if current_low <= limit_price:
+                order_filled = True
+        else:
+            # For sell limit, check if price went up to or above limit
+            if current_high >= limit_price:
+                order_filled = True
+        
+        if order_filled:
+            self.log(f"LIMIT ORDER FILLED @ {limit_price:.5f} (Current: {self.data_close[0]:.5f})")
+            # Execute the trade at limit price
+            self._open_trade(is_buy=is_buy, limit_price=limit_price)
+            # Clear pending order
+            self.pending_limit_order = None
+            return True
+        
+        return False
 
     # Hard equity drawdown stop: close all when drawdown from peak exceeds threshold
     def _check_equity_drawdown_stop(self):
-        """Hard stop based on max drawdown from peak equity"""
+        """Update peak equity tracking only"""
         current_value = self.broker.getvalue()
         
-        # Initialize peak on first call
         if self.hard_stop_peak is None:
             self.hard_stop_peak = current_value
-            self.log(f"Hard stop peak initialized: {self.hard_stop_peak:.2f}")
+            self.log(f"Hard stop peak initialized: ${self.hard_stop_peak:.2f}")
             return
         
-        # Always update peak if current value exceeds it
         if current_value > self.hard_stop_peak:
             self.hard_stop_peak = current_value
-            self.log(f"Hard stop peak updated: {self.hard_stop_peak:.2f}")
-            return
+            self.log(f"Hard stop peak updated: ${self.hard_stop_peak:.2f}")
+    
+    def _should_stop_for_drawdown(self) -> bool:
+        """Check if drawdown exceeds limit RIGHT NOW (call before closing positions)"""
+        if not self.ENABLE_EQUITY_STOP or self.hard_stop_peak is None:
+            return False
         
-        # Calculate drawdown from peak
+        current_value = self.broker.getvalue()
         drawdown_pct = (self.hard_stop_peak - current_value) / self.hard_stop_peak * 100.0
-        
-        # === ENHANCED DIAGNOSTIC LOGGING ===
-        # Log detailed equity breakdown when we have an open position
-        if self.position.size != 0:
-            CONTRACT_SIZE = 100
-            current_price = self.data_close[0]
-            
-            # Calculate P&L using strategy's CONTRACT_SIZE assumption
-            position_pnl_with_multiplier = self.position.size * (current_price - self.position.price) * CONTRACT_SIZE
-            
-            # Calculate P&L WITHOUT multiplier (what broker might be using)
-            position_pnl_no_multiplier = self.position.size * (current_price - self.position.price)
-            
-            # Get broker's cash (should be starting cash minus/plus realized P&L)
-            broker_cash = self.broker.get_cash()
-            
-            # Calculate what equity SHOULD be with correct multiplier
-            expected_equity_with_multiplier = broker_cash + position_pnl_with_multiplier
-            
-            self.log("=" * 60)
-            self.log("EQUITY DIAGNOSTIC (Hard Stop Check):")
-            self.log(f"  Position Size: {self.position.size:.5f} broker units")
-            self.log(f"  Position Entry Price: {self.position.price:.5f}")
-            self.log(f"  Current Price: {current_price:.5f}")
-            self.log(f"  Price Difference: {current_price - self.position.price:.5f}")
-            self.log(f"  ---")
-            self.log(f"  Broker Cash: ${broker_cash:.2f}")
-            self.log(f"  Broker Equity (getvalue): ${current_value:.2f}")
-            self.log(f"  Broker Implied P&L: ${current_value - broker_cash:.2f}")
-            self.log(f"  ---")
-            self.log(f"  Expected P&L (WITH x100 multiplier): ${position_pnl_with_multiplier:.2f}")
-            self.log(f"  Expected Equity (WITH multiplier): ${expected_equity_with_multiplier:.2f}")
-            self.log(f"  Expected P&L (NO multiplier): ${position_pnl_no_multiplier:.2f}")
-            self.log(f"  Expected Equity (NO multiplier): ${broker_cash + position_pnl_no_multiplier:.2f}")
-            self.log(f"  ---")
-            self.log(f"  MISMATCH: ${abs(current_value - expected_equity_with_multiplier):.2f}")
-            self.log("=" * 60)
-        
-        # Log drawdown periodically for monitoring
-        if len(self.data_close) % 10 == 0:  # Log every 10 bars
-            self.log(f"Current drawdown: {drawdown_pct:.2f}% (Peak: {self.hard_stop_peak:.2f}, Current: {current_value:.2f})")
         
         if drawdown_pct >= self.MAX_DRAWDOWN_PERCENT:
             self.log(
-                f"HARD EQUITY STOP TRIGGERED: DD {drawdown_pct:.2f}% >= {self.MAX_DRAWDOWN_PERCENT:.2f}% "
-                f"(Peak: {self.hard_stop_peak:.2f}, Current: {current_value:.2f}). CLOSING ALL POSITIONS.",
+                f"DRAWDOWN LIMIT HIT: {drawdown_pct:.2f}% >= {self.MAX_DRAWDOWN_PERCENT:.2f}% "
+                f"(Peak: ${self.hard_stop_peak:.2f}, Current: ${current_value:.2f})",
                 "CRITICAL"
             )
-            # Close all positions
-            if self.position.size != 0:
-                self.close()
-            # Set flag to stop all further trading (mimics MT5 ExpertRemove)
             self.equity_stop_triggered = True
+            return True
+        
+        return False
     
     def _check_trailing_equity_stop(self):
         """Trailing equity stop: closes positions when equity drops X% from peak (locks in profits)"""
@@ -606,7 +776,7 @@ class GoldCandleKenStrategy(bt.Strategy):
             # Reset peak after closing
             self.trailing_equity_peak = None
 
-    def _open_trade(self, is_buy: bool):
+    def _open_trade(self, is_buy: bool, limit_price: float = None):
         # Respect max open trades (use entry count, not position size calc)
         if len(self._entries) >= self.MAX_OPEN_TRADES:
             self.log(f"Max open trades reached: {len(self._entries)}")
@@ -614,7 +784,20 @@ class GoldCandleKenStrategy(bt.Strategy):
 
         # Calculate next position size
         size = self._next_lot_size()
-        price = self.data_close[0]
+        
+        # Fix A & B: Determine entry price
+        if limit_price is not None:
+            # Fix B: Use limit price from pullback entry
+            price = limit_price
+            self.log(f"Entry Mode: LIMIT @ {price:.5f} (pullback entry)", "DEBUG")
+        elif self.ENTER_ON_OPEN:
+            # Fix A: Enter at breakout START (open) instead of END (close)
+            price = self.data_open[0]  # Enter at current bar open (breakout start)
+            self.log(f"Entry Mode: OPEN (catching breakout start)", "DEBUG")
+        else:
+            # Traditional: Enter at close
+            price = self.data_close[0]  # Enter at current bar close (breakout end)
+            self.log(f"Entry Mode: CLOSE (traditional)", "DEBUG")
         
         # Validate position size against account equity
         if not self._validate_position_size(size, price):
@@ -784,6 +967,10 @@ class GoldCandleKenStrategy(bt.Strategy):
             if direction_is_long:
                 basket_sl = avg_price - sl_distance
                 if current_price <= basket_sl:
+                    # CHECK DRAWDOWN BEFORE CLOSING
+                    if self._should_stop_for_drawdown():
+                        self.close()
+                        return True
                     self.log(
                         f"Grid basket SL hit @ {current_price:.5f} "
                         f"(Avg: {avg_price:.5f}, SL: {basket_sl:.5f}). Closing all positions."
@@ -793,6 +980,10 @@ class GoldCandleKenStrategy(bt.Strategy):
             else:
                 basket_sl = avg_price + sl_distance
                 if current_price >= basket_sl:
+                    # CHECK DRAWDOWN BEFORE CLOSING
+                    if self._should_stop_for_drawdown():
+                        self.close()
+                        return True
                     self.log(
                         f"Grid basket SL hit @ {current_price:.5f} "
                         f"(Avg: {avg_price:.5f}, SL: {basket_sl:.5f}). Closing all positions."
@@ -884,6 +1075,8 @@ class GoldCandleKenStrategy(bt.Strategy):
         # Manage TP by closing when price crosses target
         price = self.data_close[0]
         if (direction_is_long and price >= breakeven_plus) or (not direction_is_long and price <= breakeven_plus):
+            # Check drawdown for consistent logging (TP is still profitable, so we close regardless)
+            self._should_stop_for_drawdown()
             self.log(f"Basket TP reached @ {price:.5f} (Target: {breakeven_plus:.5f}). Closing position.")
             self.close()
             return True
@@ -916,6 +1109,11 @@ class GoldCandleKenStrategy(bt.Strategy):
             
             # Check if price hit trailing stop
             if price <= self.trailing_stop_level:
+                # CHECK DRAWDOWN BEFORE CLOSING
+                if self._should_stop_for_drawdown():
+                    self.close()
+                    self.trailing_stop_level = None
+                    return True
                 self.log(f"Trailing SL hit (long) @ {price:.5f}, SL level: {self.trailing_stop_level:.5f}. Closing.")
                 self.close()
                 self.trailing_stop_level = None
@@ -934,6 +1132,11 @@ class GoldCandleKenStrategy(bt.Strategy):
             
             # Check if price hit trailing stop
             if price >= self.trailing_stop_level:
+                # CHECK DRAWDOWN BEFORE CLOSING
+                if self._should_stop_for_drawdown():
+                    self.close()
+                    self.trailing_stop_level = None
+                    return True
                 self.log(f"Trailing SL hit (short) @ {price:.5f}, SL level: {self.trailing_stop_level:.5f}. Closing.")
                 self.close()
                 self.trailing_stop_level = None
@@ -956,6 +1159,10 @@ class GoldCandleKenStrategy(bt.Strategy):
         if self.ENABLE_POSITION_SL and entry.get("sl") is not None:
             sl_level = entry["sl"]
             if (direction_is_long and price <= sl_level) or (not direction_is_long and price >= sl_level):
+                # CHECK DRAWDOWN BEFORE CLOSING
+                if self._should_stop_for_drawdown():
+                    self.close()
+                    return True
                 self.log(f"Static SL hit @ {price:.5f} (SL: {sl_level:.5f}). Closing single position.")
                 self.close()
                 return True

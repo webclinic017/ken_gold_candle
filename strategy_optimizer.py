@@ -128,7 +128,7 @@ class StrategyAnalyzer:
         
         # ATR calculation (14-period default)
         self.data['tr'] = self._calculate_true_range()
-        self.data['atr_14'] = self.data['tr'].rolling(window=14).mean()
+        self.data['atr_14'] = self.data['tr'].rolling(window=20).mean()
         
         # Moving averages for trend filter
         self.data['ema_100'] = self.data['close'].ewm(span=100, adjust=False).mean()
@@ -186,7 +186,7 @@ class StrategyAnalyzer:
         self,
         small_percentile: int,
         big_percentile: int,
-        lookback_period: int = 200
+        lookback_period: int = 60
     ) -> Dict:
         """
         Test the two-candle pattern strategy with given percentile thresholds.
@@ -1281,6 +1281,36 @@ def main():
         default=1.5,
         help='Big candle ATR multiplier when using ATR method (default: 1.5x)'
     )
+    parser.add_argument(
+        '--tp-range-min',
+        type=float,
+        default=1.0,
+        help='Minimum TP multiplier to test (default: 1.0)'
+    )
+    parser.add_argument(
+        '--tp-range-max',
+        type=float,
+        default=3.0,
+        help='Maximum TP multiplier to test (default: 3.0)'
+    )
+    parser.add_argument(
+        '--sl-range-min',
+        type=float,
+        default=0.5,
+        help='Minimum SL multiplier to test (default: 0.5)'
+    )
+    parser.add_argument(
+        '--sl-range-max',
+        type=float,
+        default=2.0,
+        help='Maximum SL multiplier to test (default: 2.0)'
+    )
+    parser.add_argument(
+        '--tp-sl-step',
+        type=float,
+        default=0.5,
+        help='Step size for TP/SL optimization (default: 0.5). Use 0.1 for finer granularity'
+    )
     
     args = parser.parse_args()
     
@@ -1374,6 +1404,9 @@ def main():
             use_atr=args.use_atr_method,
             small_atr_mult=args.atr_small_mult,
             big_atr_mult=args.atr_big_mult,
+            tp_range=(args.tp_range_min, args.tp_range_max),
+            sl_range=(args.sl_range_min, args.sl_range_max),
+            step=args.tp_sl_step,
             start_hour=args.start_hour,
             end_hour=args.end_hour
         )

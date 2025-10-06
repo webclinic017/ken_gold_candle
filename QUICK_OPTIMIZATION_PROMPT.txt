@@ -1,0 +1,93 @@
+═══════════════════════════════════════════════════════════════════════════
+GOLD STRATEGY OPTIMIZATION PROMPT (Copy-Paste Ready)
+═══════════════════════════════════════════════════════════════════════════
+
+OBJECTIVE:
+Find configuration settings for ken_gold_candle.py that achieve:
+• Profit Factor > 1.3
+• ROI > 0.4% for 2-week periods
+• Confirmed in at least 4 different 2-week periods in 2024
+
+SETUP:
+export POLYGON_API_KEY="[obfscuated]"
+
+KEY REQUIREMENTS:
+1. Use C:XAUUSD ticker (NOT X:XAUUSD) - this is critical for Polygon forex data
+2. Use 1-minute data: --timeframe 1 --timespan minute
+3. Test account: --initial-cash 10000
+4. Only modify configuration variables in ken_gold_candle.py (lines 66-177)
+5. DO NOT change code logic - only config parameters
+6. Always backup before starting: cp ken_gold_candle.py ken_gold_candle.py.backup
+7. Revert when done: cp ken_gold_candle.py.backup ken_gold_candle.py
+
+WORKFLOW:
+1. Read OPTIMIZATION_PROMPT.md for complete methodology
+2. Review optimization_results.json for historical best settings
+3. Backup ken_gold_candle.py
+4. Run baseline test: ./test_multiple_periods.sh
+5. Iterate on these parameters:
+   • ATR_SMALL_MULTIPLIER (lines 81) - try 0.3 to 0.6
+   • ATR_BIG_MULTIPLIER (line 82) - try 1.3 to 2.0
+   • TP_ATR_MULTIPLIER (line 99) - try 2.0 to 4.0
+   • SL_ATR_MULTIPLIER (line 100) - try 0.3 to 1.0
+   • USE_LIMIT_ENTRY (line 160) - try True/False
+   • USE_MOMENTUM_FILTER (line 164) - try True/False
+   • ENABLE_COUNTER_TREND_FADE (line 173) - try True/False
+6. Document all results
+7. Revert ken_gold_candle.py to original state
+8. Keep test_multiple_periods.sh for future use
+
+TESTING COMMAND:
+python backtest_runner.py --ticker C:XAUUSD --start-date 2024-09-01 --end-date 2024-09-15 --timeframe 1 --timespan minute --initial-cash 10000
+
+MULTI-PERIOD TEST:
+./test_multiple_periods.sh
+
+SUCCESS CRITERIA:
+At least 4 out of 6 test periods must show:
+• Profit Factor > 1.3 AND
+• ROI > 0.4%
+
+TEST PERIODS (edit test_multiple_periods.sh to modify):
+• 2024-07-01 to 2024-07-15
+• 2024-07-15 to 2024-07-30
+• 2024-08-01 to 2024-08-15
+• 2024-08-15 to 2024-09-01
+• 2024-09-01 to 2024-09-15
+
+STARTING POINT (from historical optimization):
+TP_ATR_MULTIPLIER = 3.5
+SL_ATR_MULTIPLIER = 0.3
+(This achieved PF 1.74 in long-term 2024 data)
+
+EXPECTED OUTPUT FORMAT:
+Config X:
+- ATR_SMALL_MULTIPLIER: 0.4
+- ATR_BIG_MULTIPLIER: 1.6
+- TP_ATR_MULTIPLIER: 3.0
+- SL_ATR_MULTIPLIER: 0.4
+- Filters: None
+
+Results:
+1. Jul 1-15: ROI 0.10%, PF 1.07 ❌
+2. Jul 15-30: ROI 0.25%, PF 1.10 ❌
+3. Aug 1-15: ROI 1.38%, PF 2.62 ✅✅
+4. Aug 15-Sep 1: ROI 0.31%, PF 1.16 ❌
+5. Sep 1-15: ROI 0.41%, PF 1.26 ✅ (close)
+
+Success Rate: 1/5 (need 4/6 minimum)
+
+IMPORTANT NOTES:
+• Previous attempts did NOT meet criteria (see OPTIMIZATION_FINDINGS.md)
+• Strategy is sensitive to market conditions (works best in trending markets)
+• If no config works, document why and recommend next steps
+• Always test on diverse periods (different quarters, volatility levels)
+
+REFERENCE FILES:
+• OPTIMIZATION_PROMPT.md - Full methodology
+• OPTIMIZATION_FINDINGS.md - Previous attempt results
+• optimization_results.json - Historical best parameters
+• CLAUDE.md - Development guide
+• test_multiple_periods.sh - Multi-period testing script
+
+═══════════════════════════════════════════════════════════════════════════

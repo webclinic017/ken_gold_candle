@@ -2,38 +2,136 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 🎯 Quick Start: Running Optimization
+
+**To find optimal strategy settings that meet performance targets:**
+
+1. Read the complete optimization guide: `OPTIMIZATION_PROMPT.md`
+2. Run the multi-period test: `./test_multiple_periods.sh`
+3. Iterate on configuration settings in `ken_gold_candle.py` (lines 66-177)
+4. Goal: Profit Factor > 1.3 AND ROI > 0.4% in at least 4 different 2-week periods
+
+**Key Details:**
+- API Key: Set `export POLYGON_API_KEY="your_key"`
+- Polygon Ticker: Use `C:XAUUSD` (not `X:XAUUSD`) for gold forex
+- Test Data: 1-minute bars (`--timeframe 1 --timespan minute`)
+- Account Size: `--initial-cash 10000`
+
+See `OPTIMIZATION_PROMPT.md` for complete workflow and examples.
+
+---
+
 ## Repository Overview
 
 This is a **Gold/Crypto trading bot** built with Python and Backtrader. It implements a two-candle pattern trading strategy with adaptive candle sizing, grid recovery, and multiple risk management features.
 
 **Core Components:**
 - `ken_gold_candle.py` - Main strategy implementation (Backtrader-based)
+- `backtest_runner.py` - Automated backtesting with Polygon API integration
 - `strategy_optimizer.py` - Historical data analysis and parameter optimization tool
 - `optimization_results.json` - Pre-run optimization results for XAUUSD (Gold)
+- `pyproject.toml` - Package configuration and dependencies (supports `uv` installation)
 
 ## Development Commands
 
-### Running the Strategy
+### Installation
+
+The project supports both traditional `pip` and modern `uv` package managers:
 
 ```bash
-# Basic backtest (modify ken_gold_candle.py to configure datafeed first)
+# Using uv (recommended - faster, better dependency resolution)
+uv pip install -e .
+
+# Or using pip
+pip install -r requirements.txt
+```
+
+**Note:** `pyproject.toml` defines all dependencies and provides entry points for `backtest` and `optimize` commands when installed with `uv`.
+
+### Running Backtests
+
+**Option 1: Automated Backtesting with Polygon Data (Recommended)**
+
+Use `backtest_runner.py` for automated data fetching and comprehensive metrics:
+
+```bash
+# Set API key (one time)
+export POLYGON_API_KEY="your_api_key_here"
+
+# Basic backtest (1 year of hourly data)
+uv run backtest_runner.py
+
+# Or using python
+python backtest_runner.py
+
+# Custom date range and settings (use C:XAUUSD for gold forex)
+uv run backtest_runner.py \
+  --ticker C:XAUUSD \
+  --start-date 2024-01-01 \
+  --end-date 2024-12-31 \
+  --timeframe 1 \
+  --timespan hour \
+  --initial-cash 10000 \
+  --tp-atr-mult 3.5 \
+  --sl-atr-mult 0.3
+
+# Batch testing (compare 8 configurations)
+uv run backtest_runner.py --batch-test
+```
+
+**Option 3: Multi-Period Testing (Consistency Validation)**
+
+Use the `test_multiple_periods.sh` script to test configuration across multiple 2-week periods for consistency validation:
+
+```bash
+# Set API key
+export POLYGON_API_KEY="your_api_key_here"
+
+# Run multi-period test
+./test_multiple_periods.sh
+```
+
+This script tests the current `ken_gold_candle.py` configuration across 5 different 2-week periods and reports ROI% and Profit Factor for each. Useful for:
+- Validating configuration changes don't degrade performance in different market conditions
+- Finding settings that work consistently across time periods
+- Identifying which market conditions favor your strategy
+
+**Edit the script** to customize date ranges:
+```bash
+periods=(
+  "2024-07-01 2024-07-15"
+  "2024-08-01 2024-08-15"
+  # Add more periods as needed
+)
+```
+
+**Option 4: Manual Backtesting**
+
+Modify `ken_gold_candle.py` to configure datafeed, then run:
+
+```bash
 python ken_gold_candle.py
 ```
 
-Note: The strategy uses hardcoded parameters. No CLI arguments are supported as this is designed for TradeLocker deployment.
+Note: The strategy uses hardcoded parameters. For live deployment, these are set in the strategy class. For backtesting, use `backtest_runner.py` to override parameters via CLI.
 
 ### Strategy Optimization
 
 The optimizer downloads historical 1-minute data from Polygon.io and tests various parameter combinations to find profitable settings.
 
-**Requirements:**
-```bash
-pip install -r requirements_optimizer.txt  # If this file exists
-# Otherwise: pip install requests pandas numpy
-```
-
 **Basic Analysis (no optimization):**
 ```bash
+# Using uv
+uv run strategy_optimizer.py \
+  --api-key YOUR_POLYGON_API_KEY \
+  --symbol XAUUSD \
+  --asset-class forex \
+  --start 2025-05-01 \
+  --end 2025-09-30 \
+  --start-hour 5 \
+  --end-hour 12
+
+# Or using python
 python strategy_optimizer.py \
   --api-key YOUR_POLYGON_API_KEY \
   --symbol XAUUSD \
@@ -207,11 +305,37 @@ The optimizer tests a **simplified** version of the strategy:
 
 ## Common Tasks
 
+### Quick Backtest Workflow
+
+For rapid testing and iteration:
+
+1. Set API key: `export POLYGON_API_KEY="your_key"`
+2. Run backtest: `python backtest_runner.py --ticker C:XAUUSD --start-date 2024-09-01 --end-date 2024-09-15 --timeframe 1 --timespan minute --initial-cash 10000`
+3. Test consistency across periods: `./test_multiple_periods.sh`
+4. Compare multiple configs: `python backtest_runner.py --batch-test`
+
+**Important:** Use `C:XAUUSD` (not `X:XAUUSD`) for gold forex data from Polygon.io. The `C:` prefix is required for forex pairs.
+
+See `BACKTEST_QUICKSTART.md` for detailed guide with examples.
+
 ### Modifying Strategy Parameters
 
+**For Backtesting:**
+Use `backtest_runner.py` command-line arguments to override parameters without editing code:
+
+```bash
+uv run backtest_runner.py \
+  --lot-size 0.05 \
+  --tp-atr-mult 3.5 \
+  --sl-atr-mult 0.3 \
+  --enable-grid \
+  --max-drawdown 2.0
+```
+
+**For Live Trading:**
 1. Open `ken_gold_candle.py`
 2. Modify class variables (lines 44-132)
-3. Run backtest to verify changes
+3. Deploy to TradeLocker (parameters are hardcoded for live deployment)
 
 ### Running Optimization for a New Period
 
@@ -295,11 +419,13 @@ The optimizer auto-detects XAUUSD and sets asset class to forex.
 
 ## Key Design Decisions
 
-1. **Hardcoded Parameters** - Strategy is designed for TradeLocker deployment where parameters are typically hardcoded rather than user-adjustable.
+1. **Hardcoded Parameters for Live, CLI for Backtesting** - Strategy class has hardcoded parameters for TradeLocker deployment. Use `backtest_runner.py` with CLI arguments for backtesting without modifying code.
 
 2. **Backtrader Framework** - Uses Backtrader for backtesting rather than MT5/cTrader native backtest engine. This provides more flexibility but requires careful contract size configuration.
 
-3. **Separate Optimizer** - Optimization is a standalone tool rather than integrated into the strategy. This allows running historical analysis without modifying the live trading code.
+3. **Dual Backtesting Approach** - Two tools serve different purposes:
+   - `backtest_runner.py`: Full-featured backtesting with Polygon API integration, comprehensive metrics, and parameter overrides
+   - `strategy_optimizer.py`: Parameter optimization with simplified strategy simulation for finding optimal settings
 
 4. **ATR vs Percentile Methods** - Two mutually exclusive approaches to adaptive candle sizing:
    - ATR: Better for strategies that need to adapt continuously to volatility
@@ -307,11 +433,18 @@ The optimizer auto-detects XAUUSD and sets asset class to forex.
 
 5. **Time Filter Critical** - The strategy uses a 5 AM - 12 PM time window. The optimizer must use `--start-hour` and `--end-hour` flags to match this, otherwise results will show inflated signal counts (24/7 trading vs 7-hour window).
 
+6. **Package Management** - Supports both traditional `pip` (via `requirements.txt`) and modern `uv` (via `pyproject.toml`). The `uv` approach is recommended for faster installation and better dependency resolution.
+
 ## Important Files to Check
 
+- `OPTIMIZATION_PROMPT.md` - **Complete guide for running optimization analysis** (use this to find optimal settings)
+- `BACKTEST_QUICKSTART.md` - Quick start guide for automated backtesting with `backtest_runner.py`
 - `OPTIMIZER_README.md` - Comprehensive optimizer documentation with usage examples and best practices
-- `optimization_results.json` - Pre-run results for XAUUSD (May-Sept 2025) showing optimal TP/SL: 3.0x/2.0x ATR
-- Deleted files in git status: `BUGFIX_VALIDATION.md`, `comprehensive_results.json`, `comprehensive_results_fixed.json` - These appear to be debugging artifacts that have been removed
+- `optimization_results.json` - Pre-run results for XAUUSD (May-Sept 2024) showing optimal TP/SL: 3.5x/0.3x ATR
+- `OPTIMIZATION_FINDINGS.md` - Results from previous optimization attempts and lessons learned
+- `test_multiple_periods.sh` - Script to test configuration across multiple 2-week periods
+- `pyproject.toml` - Package configuration with dependencies and entry points
+- `requirements.txt` - Traditional pip requirements file
 
 ## Notes
 
