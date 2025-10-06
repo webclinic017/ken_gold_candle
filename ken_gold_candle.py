@@ -984,7 +984,7 @@ def run_backtest(datafeed):
     comminfo = bt.CommInfoBase(
         commission=0.0002,  # 0.02% commission
         mult=100.0,         # CONTRACT_SIZE: 1 lot = 100 oz for XAUUSD
-        margin=None,        # Not using margin calc, TradeLocker handles this
+        margin=True,        # Not using margin calc, TradeLocker handles this
         commtype=bt.CommInfoBase.COMM_PERC  # Percentage-based commission
     )
     cerebro.broker.addcommissioninfo(comminfo)
