@@ -86,8 +86,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     SMALL_CANDLE_POINTS = 50  # Decreased from 140 - allow smaller setup candles
     
     # ATR-based adaptive settings (when USE_ATR_CALCULATION = True)
-    ATR_SMALL_MULTIPLIER = 0.3  # Small candle = 0.3x ATR (Config J6 - very selective)
-    ATR_BIG_MULTIPLIER = 1.76  # Big candle = 1.76x ATR (Config J6 - fine-tuned optimal)
+    ATR_SMALL_MULTIPLIER = 0.5  # Small candle = 0.35x ATR (selective)
+    ATR_BIG_MULTIPLIER = 1.4  # Big candle = 1.7x ATR (strong moves)
     
     # Percentile-based adaptive settings (when USE_PERCENTILE_CALCULATION = True)
     PERCENTILE_LOOKBACK = 60    # Number of candles to analyze
@@ -104,8 +104,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     POSITION_SL_POINTS = 100  # Fixed points (only if ENABLE_POSITION_SL = True)
     
     # ATR-based TP/SL (used when USE_ATR_TP_SL = True)
-    TP_ATR_MULTIPLIER = 3.6  # Take profit = 3.6 x ATR (Config J6 - optimized)
-    SL_ATR_MULTIPLIER = 0.3  # Stop loss = 0.3 x ATR (Config J6 - tight)
+    TP_ATR_MULTIPLIER = 3.5  # Take profit = 3.0 x ATR (balanced)
+    SL_ATR_MULTIPLIER = 0.3  # Stop loss = 0.4 x ATR (balanced)
 
     # --- Grid Settings ---
     ENABLE_GRID = False
@@ -154,8 +154,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     MA_METHOD = 1
     MA_APPLIED_PRICE = 1
     ENABLE_TIME_FILTER = True
-    START_HOUR = 8  # London session (Config J6 - 4/6 success)
-    END_HOUR = 16   # London session (Config J6 - 4/6 success)
+    START_HOUR = 20  # Optimized time filter: 4-13 (best P&L and profit factor)
+    END_HOUR = 13   # Optimized time filter: 4-13 (best P&L and profit factor)
 
     # --- Indicator Settings ---
     ATR_PERIOD = 14

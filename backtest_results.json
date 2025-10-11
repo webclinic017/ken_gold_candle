@@ -1,44 +1,44 @@
 [
   {
     "run_name": "Backtest Run",
-    "timestamp": "2025-10-07T03:34:46.621658",
+    "timestamp": "2025-10-12T00:52:06.482962",
     "portfolio": {
       "starting_value": 10000.0,
-      "ending_value": 10069.925639927198,
-      "total_return": 69.92563992719806,
-      "return_pct": 0.6992563992719806
+      "ending_value": 10047.926093865432,
+      "total_return": 47.92609386543154,
+      "return_pct": 0.4792609386543154
     },
     "performance": {
-      "sharpe_ratio": 5.690240998264769,
-      "max_drawdown_pct": 0.2849198436215406,
-      "max_drawdown_money": 28.77319693379468,
-      "avg_daily_return": 0.0005806857826750176,
-      "total_compounded_return": 0.006968229392100211,
-      "sqn": 1.22870250530726,
-      "vwr": 11.577807917650276
+      "sharpe_ratio": 3.295198889593893,
+      "max_drawdown_pct": 0.430518351493365,
+      "max_drawdown_money": 43.29762459599988,
+      "avg_daily_return": 0.00029882258729801243,
+      "total_compounded_return": 0.004781161396768199,
+      "sqn": 0.7703915067994549,
+      "vwr": 5.893088619990209
     },
     "trades": {
-      "total": 118,
-      "won": 55,
-      "lost": 63,
-      "win_rate": 46.61016949152542,
-      "win_streak": 5,
-      "loss_streak": 5,
-      "avg_duration_bars": 5.398305084745763
+      "total": 134,
+      "won": 57,
+      "lost": 77,
+      "win_rate": 42.53731343283582,
+      "win_streak": 4,
+      "loss_streak": 10,
+      "avg_duration_bars": 6.41044776119403
     },
     "pnl": {
-      "net_total": 69.92563992719646,
-      "net_avg": 0.5925901688745463,
-      "profit_factor": 1.4886892584347384,
+      "net_total": 47.92609386540755,
+      "net_avg": 0.3576574169060265,
+      "profit_factor": 1.2172679310923158,
       "won": {
-        "total": 213.01378586100884,
-        "avg": 3.8729779247456153,
-        "max": 38.54972191379972
+        "total": 268.511311501802,
+        "avg": 4.710724763189509,
+        "max": 23.969669659799344
       },
       "lost": {
-        "total": -143.08814593381243,
-        "avg": -2.2712404116478164,
-        "max": -11.190279666600054
+        "total": -220.58521763639442,
+        "avg": -2.8647430861869405,
+        "max": -12.090333517799236
       }
     }
   }
