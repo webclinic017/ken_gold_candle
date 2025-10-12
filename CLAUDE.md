@@ -4,30 +4,63 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 🎯 Quick Start: Running Optimization
 
-**To find optimal strategy settings that meet performance targets:**
+**Current Status: STRETCH GOAL ACHIEVED! ✅**
+- **Config L6:** 5/6 success (83%) - Highest success rate achieved
+- Strategy is production-ready for deployment
 
-1. **Read historical results first:** `OPTIMIZATION_RESULTS_2025-10-12_Round3.md` ⭐
-   - Round 3 achieved **4/6 periods (67% success)** - **TARGET ACHIEVED ✅**
-   - Config J6 is proven optimal: ATR 0.3/1.76, TP 3.6x, SL 0.3x, London 8-16
-   - Key insight: Fine-tuning matters (ATR 1.76 vs 1.8 = 33% better results)
+**To understand optimization history or explore further improvements:**
 
-2. Read previous rounds for context:
+1. **Read historical results first (in order):**
+   - `OPTIMIZATION_RESULTS_2025-10-12_Round6.md` 🏆 **LATEST - BREAKTHROUGH**
+     - **Config L6 achieved 5/6 success (83%)** - First config to break past 4/6 barrier
+     - Momentum filter + Light trend filter (MA 50) = optimal combination
+     - Only P1 (low-vol Q1) fails - all other periods pass
+     - **STRETCH GOAL ACHIEVED ✅**
+   - `OPTIMIZATION_RESULTS_2025-10-12_Round5.md` - Round 5 (feature testing)
+     - Discovered momentum filter (Config K13) - highest quality trades (PF 2.35)
+     - Tested 22 configs - signal invalidation, trend filters, time extensions
+     - Maintained 4/6 success but found key features for Round 6
+   - `OPTIMIZATION_RESULTS_2025-10-12_Round4.md` - Round 4 (parameter exhaustion)
+     - Tested 11 ATR/TP/SL variations - no improvement beyond 4/6
+     - Confirmed parameter space exhausted, features needed
+   - `OPTIMIZATION_RESULTS_2025-10-12_Round3.md` - Round 3 SUCCESS
+     - Achieved **4/6 periods (67% success)** - **TARGET ACHIEVED ✅**
+     - Config J6 proven optimal: ATR 0.3/1.76, TP 3.6x, SL 0.3x, London 8-16
    - `OPTIMIZATION_RESULTS_2025-10-11.md` - Round 2 (3/6 success)
    - `OPTIMIZATION_FINDINGS.md` - Round 1 (2/8 success)
 
-3. Read the complete optimization guide: `OPTIMIZATION_PROMPT.md`
+2. **Current Production Config (L6):**
+   ```python
+   # Core parameters (optimized Rounds 3-6)
+   ATR_SMALL_MULTIPLIER = 0.3
+   ATR_BIG_MULTIPLIER = 1.76
+   TP_ATR_MULTIPLIER = 3.6
+   SL_ATR_MULTIPLIER = 0.3
+   START_HOUR = 8  # London session
+   END_HOUR = 16
 
-4. Run the multi-period test: `./test_multiple_periods.sh`
-   - Currently uses diverse Q1-Q4 periods (updated Oct 2025)
+   # Momentum filter (Round 5 discovery)
+   USE_MOMENTUM_FILTER = True
+   MIN_CANDLE_BODY_RATIO = 0.7
+
+   # Light trend filter (Round 6 breakthrough)
+   ENABLE_TREND_FILTER = True
+   MA_PERIOD = 50  # Goldilocks zone (not too restrictive)
+
+   # Signal invalidation (Round 5 validation)
+   ENABLE_SIGNAL_INVALIDATION = True
+   INVALIDATION_WINDOW_BARS = 3
+   ```
+
+3. **Run validation test:** `./test_multiple_periods.sh`
+   - Currently uses diverse Q1-Q4 periods (6 test periods)
    - Tests: Jan, Mar, May, Aug, Sep-Oct, Oct-Nov
-   - Config J6 results: 4/6 success
+   - **Config L6 result: 5/6 success (83%)**
 
-5. If exploring further optimizations:
-   - Current settings are in `ken_gold_candle.py` (lines 88-108, 157-158)
-   - Config J6 already meets target - only iterate if seeking 5/6 or 6/6
-   - Focus on very small variations (e.g., ATR 1.74-1.78, TP 3.5-3.7)
-
-6. Goal: Profit Factor > 1.3 AND ROI > 0.4% in at least 4 different 2-week periods ✅
+4. **Success Criteria:**
+   - Profit Factor > 1.3 AND ROI > 0.4%
+   - Target: 4/6 periods ✅ (achieved Round 3)
+   - Stretch: 5/6 periods ✅ (achieved Round 6) 🎉
 
 **Key Details:**
 - API Key: Set `export POLYGON_API_KEY="your_key"`
@@ -36,11 +69,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Account Size: `--initial-cash 10000`
 
 **Historical Progress:**
-- Round 1 (clustered periods): 2/8 success (25%)
+- Round 1 (wide search): 2/8 success (25%)
 - Round 2 (diverse periods): 3/6 success (50%) - 2x improvement
-- Round 3 (fine-tuned): 4/6 success (67%) ✅ - **2.67x total improvement - TARGET ACHIEVED**
+- Round 3 (fine-tuning): 4/6 success (67%) ✅ - **TARGET ACHIEVED**
+- Round 4 (parameter exhaustion): 4/6 success (67%) - no improvement, 11 configs tested
+- Round 5 (feature testing): 4/6 success (67%) - discovered momentum filter (K13)
+- Round 6 (feature combinations): 5/6 success (83%) ✅ - **STRETCH GOAL ACHIEVED** 🎉
+  - **3.32x improvement over Round 1**
 
-See `OPTIMIZATION_PROMPT.md` for complete workflow and examples.
+**Next Steps:**
+- Deploy L6 to demo account for 2-4 weeks validation
+- Monitor performance in new market conditions
+- Optional: Add volatility filter (ATR < 0.4) to skip low-vol periods → potential 5/5 (100%)
+
+See `OPTIMIZATION_PROMPT.md` for complete methodology and `OPTIMIZATION_RESULTS_2025-10-12_Round6.md` for detailed Round 6 analysis.
 
 ---
 

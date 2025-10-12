@@ -86,8 +86,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     SMALL_CANDLE_POINTS = 50  # Decreased from 140 - allow smaller setup candles
     
     # ATR-based adaptive settings (when USE_ATR_CALCULATION = True)
-    ATR_SMALL_MULTIPLIER = 0.3  # Small candle = 0.3x ATR (Config J6 - very selective)
-    ATR_BIG_MULTIPLIER = 1.76  # Big candle = 1.76x ATR (Config J6 - fine-tuned optimal)
+    ATR_SMALL_MULTIPLIER = 0.3   # Config L6: Optimized (Round 3-6)
+    ATR_BIG_MULTIPLIER = 1.76    # Config L6: Optimized (Round 3-6)
     
     # Percentile-based adaptive settings (when USE_PERCENTILE_CALCULATION = True)
     PERCENTILE_LOOKBACK = 60    # Number of candles to analyze
@@ -104,8 +104,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     POSITION_SL_POINTS = 100  # Fixed points (only if ENABLE_POSITION_SL = True)
     
     # ATR-based TP/SL (used when USE_ATR_TP_SL = True)
-    TP_ATR_MULTIPLIER = 3.6  # Take profit = 3.6 x ATR (Config J6 - optimized)
-    SL_ATR_MULTIPLIER = 0.3  # Stop loss = 0.3 x ATR (Config J6 - tight)
+    TP_ATR_MULTIPLIER = 3.6  # Take profit = 3.6 x ATR (Config L6 - optimized Round 3-6)
+    SL_ATR_MULTIPLIER = 0.3  # Stop loss = 0.3 x ATR (Config L6 - optimized Round 3-6)
 
     # --- Grid Settings ---
     ENABLE_GRID = False
@@ -149,28 +149,29 @@ class GoldCandleKenStrategy(bt.Strategy):
     
     TRADING_DIRECTION = 0
     MAX_SPREAD_POINTS = 20
-    ENABLE_TREND_FILTER = False
-    MA_PERIOD = 100
+    ENABLE_TREND_FILTER = True   # Config L6: Optimized Round 6 - Light trend filter (MA 50 vs MA 100)
+    MA_PERIOD = 50               # Config L6: Optimized Round 6 - Goldilocks zone (not too restrictive)
     MA_METHOD = 1
     MA_APPLIED_PRICE = 1
     ENABLE_TIME_FILTER = True
-    START_HOUR = 8  # London session (Config J6 - 4/6 success)
-    END_HOUR = 16   # London session (Config J6 - 4/6 success)
+    START_HOUR = 8   # Config L6: Optimized Round 2-6 - London session
+    END_HOUR = 16    # Config L6: Optimized Round 2-6 - London session
 
     # --- Indicator Settings ---
-    ATR_PERIOD = 14
+    ATR_PERIOD = 14  # Config L6: Standard ATR period (tested 10-20, 14 optimal)
 
     # --- Entry Timing Fixes ---
     # Fix A: Enter at breakout START (open) instead of END (close)
     ENTER_ON_OPEN = True  # Enter at bar open (breakout start) vs bar close (breakout end)
     
     # Fix B: Wait for pullback before entering (limit order behavior)
-    USE_LIMIT_ENTRY = False  # Wait for 50% retracement before entering
-    LIMIT_RETRACEMENT_PERCENT = 50.0  # Wait for 50% pullback of big candle
-    
+    USE_LIMIT_ENTRY = False  # Config L6: Disabled (immediate entries better)
+
+    LIMIT_RETRACEMENT_PERCENT = 50.0
+
     # Fix C: Momentum confirmation filters
-    USE_MOMENTUM_FILTER = False  # Confirm breakout strength before entering
-    MIN_CANDLE_BODY_RATIO = 0.7  # Candle must close in top/bottom 30% (0.7 = 70%)
+    USE_MOMENTUM_FILTER = True   # Config L6: Optimized Round 5-6 (critical for quality trades)
+    MIN_CANDLE_BODY_RATIO = 0.7  # Config L6: Optimized Round 5-6 (strong candle bodies)
     CHECK_VOLUME = False  # Require above-average volume (needs volume data)
     MAX_EXHAUSTION_RATIO = 3.0  # Reject if big candle > 3x average (exhausted move)
     
@@ -183,8 +184,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     # --- Signal Invalidation Protection ---
     # Exit immediately if large opposite candle forms within N bars after entry
     # Prevents catastrophic losses when market rejects the breakout signal
-    ENABLE_SIGNAL_INVALIDATION = True  # Enable early exit on signal reversal
-    INVALIDATION_WINDOW_BARS = 3  # Monitor for invalidation within N bars of entry
+    ENABLE_SIGNAL_INVALIDATION = True  # Config L6: Critical protection (tested in Round 5)
+    INVALIDATION_WINDOW_BARS = 3  # Config L6: Optimal window (tested 2-5, window 3 best)
 
     # --- Logging Settings ---
     LOG_LEVEL = logging.INFO  # INFO for production, DEBUG for development

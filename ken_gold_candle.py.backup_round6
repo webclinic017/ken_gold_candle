@@ -86,8 +86,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     SMALL_CANDLE_POINTS = 50  # Decreased from 140 - allow smaller setup candles
     
     # ATR-based adaptive settings (when USE_ATR_CALCULATION = True)
-    ATR_SMALL_MULTIPLIER = 0.3  # Small candle = 0.3x ATR (Config J6 - very selective)
-    ATR_BIG_MULTIPLIER = 1.76  # Big candle = 1.76x ATR (Config J6 - fine-tuned optimal)
+    ATR_SMALL_MULTIPLIER = 0.3   # Back to J6 baseline
+    ATR_BIG_MULTIPLIER = 1.76    # Back to J6 baseline
     
     # Percentile-based adaptive settings (when USE_PERCENTILE_CALCULATION = True)
     PERCENTILE_LOOKBACK = 60    # Number of candles to analyze
@@ -149,13 +149,13 @@ class GoldCandleKenStrategy(bt.Strategy):
     
     TRADING_DIRECTION = 0
     MAX_SPREAD_POINTS = 20
-    ENABLE_TREND_FILTER = False
+    ENABLE_TREND_FILTER = False  # Back to K13 baseline
     MA_PERIOD = 100
     MA_METHOD = 1
     MA_APPLIED_PRICE = 1
     ENABLE_TIME_FILTER = True
-    START_HOUR = 8  # London session (Config J6 - 4/6 success)
-    END_HOUR = 16   # London session (Config J6 - 4/6 success)
+    START_HOUR = 8   # Back to J6 baseline
+    END_HOUR = 16    # Back to J6 baseline
 
     # --- Indicator Settings ---
     ATR_PERIOD = 14
@@ -165,12 +165,13 @@ class GoldCandleKenStrategy(bt.Strategy):
     ENTER_ON_OPEN = True  # Enter at bar open (breakout start) vs bar close (breakout end)
     
     # Fix B: Wait for pullback before entering (limit order behavior)
-    USE_LIMIT_ENTRY = False  # Wait for 50% retracement before entering
-    LIMIT_RETRACEMENT_PERCENT = 50.0  # Wait for 50% pullback of big candle
-    
+    USE_LIMIT_ENTRY = False  # Config K22: Disabled
+
+    LIMIT_RETRACEMENT_PERCENT = 50.0
+
     # Fix C: Momentum confirmation filters
-    USE_MOMENTUM_FILTER = False  # Confirm breakout strength before entering
-    MIN_CANDLE_BODY_RATIO = 0.7  # Candle must close in top/bottom 30% (0.7 = 70%)
+    USE_MOMENTUM_FILTER = True   # Config K23: Testing stricter momentum
+    MIN_CANDLE_BODY_RATIO = 0.75 # Config K23: Even stronger confirmation
     CHECK_VOLUME = False  # Require above-average volume (needs volume data)
     MAX_EXHAUSTION_RATIO = 3.0  # Reject if big candle > 3x average (exhausted move)
     
