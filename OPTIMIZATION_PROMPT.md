@@ -4,6 +4,53 @@
 
 You are an expert AI trading strategist analyzing a gold trading repository to find optimal configuration settings. Your goal is to achieve specific performance targets consistently across multiple time periods. You have full autonomy to modify configuration and testing scripts to meet the objective.
 
+## 📚 FIRST STEP: Read Historical Learnings
+
+**CRITICAL:** Before starting ANY optimization work, you MUST read these files in order to understand:
+- What has been tried before
+- What worked and what didn't
+- Key learnings and pitfalls to avoid
+- Current best configurations
+
+### Required Reading (in this order):
+
+1. **OPTIMIZATION_LEARNINGS_Round7.md** 🎯 **START HERE**
+   - 10 major learnings from most recent optimization
+   - Parameter impact summary
+   - What worked vs what didn't
+   - Recommendations for future rounds
+   - **Read this first to avoid repeating mistakes**
+
+2. **OPTIMIZATION_RESULTS_2025-10-14_Round7.md** 📊 **Latest Results**
+   - Most recent optimization (frequency focus)
+   - Config HF9: 7/12 success (58.3%), 6.3 trades/day
+   - Detailed analysis of 10 configs tested
+   - Period-by-period breakdown
+
+3. **OPTIMIZATION_RESULTS_2025-10-12_Round6.md** 📊 **Quality Focus**
+   - Config L6: 5/6 success (83%), 2.7 trades/day
+   - Breakthrough with momentum + MA 50 filters
+   - Feature combination insights
+
+4. **CLAUDE.md** 📖 **Quick Reference**
+   - Current production configs (HF9 and L6)
+   - Quick start commands
+   - Success criteria and historical progress
+
+### Key Insights to Remember:
+
+- **Don't tunnel vision on same parameters** - Test ALL adjustable parameters systematically
+- **Extended hours can be "free lunch"** - More trading time without quality loss
+- **Higher TP > tighter SL** - For ROI thresholds, profit targets matter more
+- **Trend filters hurt consistency** - Simple often beats complex across diverse periods
+- **Some periods structurally unprofitable** - Accept limitations, don't over-optimize
+- **Signal invalidation is critical** - Don't disable core risk protections
+- **Selective testing overfits** - Use diverse periods for realistic expectations
+
+**After reading these files, proceed with the objective below.**
+
+---
+
 ## Objective
 
 **OBJECTIVE ACHIEVED ✅** - Configuration settings that meet performance targets:
@@ -13,34 +60,40 @@ You are an expert AI trading strategist analyzing a gold trading repository to f
 - **Target: 4/6 periods** (achieved Round 3 ✅)
 - **Stretch goal: 5/6 periods** (achieved Round 6 ✅) 🎉
 
-### Current Status (Post-Round 6)
+### Current Status (Post-Round 7)
 
-**Config L6 (Production):** 5/6 periods = 83% success ✅ 🎉
-- **Periods 2, 3, 4, 5, 6 all pass both criteria**
-- Only Period 1 fails (low volatility Q1 - strategy not suited)
-- **3.32x improvement over Round 1**
+**Config HF9 (Primary - High Frequency):** 7/12 periods = 58.3% success ✅
+- **132% trade frequency increase** (2.7 → 6.3 trades/day)
+- 88 trades per 2-week period (extended hours + lower thresholds)
+- Passes P2, P3, P4, P7, P8, P9, P11
+- Just 1 period short of 60% target
 
-**Configuration:**
+**Config L6 (Alternative - High Success Rate):** 5/6 periods = 83% success ✅ 🎉
+- Lower frequency (2.7 trades/day) but exceptional win rate
+- Proven on selective periods from Rounds 1-6
+- Drops to 4/12 (33%) on diverse 12-period test (overfitted)
+
+**Primary Configuration (HF9 - Currently Deployed):**
 ```python
-# Core parameters (optimized Rounds 3-6)
+# Core parameters (optimized Round 7)
 ATR_SMALL_MULTIPLIER = 0.3
-ATR_BIG_MULTIPLIER = 1.76
-TP_ATR_MULTIPLIER = 3.6
-SL_ATR_MULTIPLIER = 0.3
-START_HOUR = 8  # London session
-END_HOUR = 16
+ATR_BIG_MULTIPLIER = 1.6     # Lowered from 1.76
+TP_ATR_MULTIPLIER = 4.2      # Increased from 3.6
+SL_ATR_MULTIPLIER = 0.2      # Tightened from 0.3
+START_HOUR = 7   # Extended from 8
+END_HOUR = 17    # Extended from 16
 
-# Momentum filter (Round 5 discovery)
+# Momentum filter (adjusted)
 USE_MOMENTUM_FILTER = True
-MIN_CANDLE_BODY_RATIO = 0.7
+MIN_CANDLE_BODY_RATIO = 0.6  # Lowered from 0.7
 
-# Light trend filter (Round 6 breakthrough)
-ENABLE_TREND_FILTER = True
-MA_PERIOD = 50  # Goldilocks zone (not too restrictive)
+# Trend filter (disabled for consistency)
+ENABLE_TREND_FILTER = False  # Removed (hurt diverse periods)
 
-# Signal invalidation (Round 5 validation)
+# Signal invalidation (critical)
 ENABLE_SIGNAL_INVALIDATION = True
 INVALIDATION_WINDOW_BARS = 3
+ATR_PERIOD = 14
 ```
 
 ### Optimization Journey
@@ -57,22 +110,33 @@ INVALIDATION_WINDOW_BARS = 3
   - **Config L6: Momentum + MA 50 = 5/6 success**
   - First config to break past 4/6 barrier
   - MA 50 = Goldilocks zone (not too restrictive like MA 100)
+**Round 7 (7/12, 58.3%):** Frequency focus + expanded testing (10 configs) ✅ FREQUENCY GOAL
+  - **Config HF9: Extended hours + higher TP = 6.3 trades/day**
+  - Tested across 12 random diverse periods (vs 6 selective)
+  - 132% frequency increase while maintaining profitability
+  - Key learnings: Extended hours, higher TP, simpler is better
+  - Just 1 period short of 60% target
 
 ### Future Exploration (Optional)
 
-**Current config is production-ready.** Further optimization paths:
+**Current configs are production-ready.** Further optimization paths:
 
-1. **Volatility filter:** Skip trading when ATR < 0.4 (low volatility)
-   - Would skip P1 systematically
-   - Potential result: 5/5 viable periods (100%)
+1. **Reach 60% target (8/12 periods):**
+   - Lower success criteria to PF > 1.1, ROI > 0.3% → Would achieve 9/12 (75%)
+   - Test additional parameter combinations (LOT_SIZE, MAX_DRAWDOWN_PERCENT)
+   - Optimize for borderline periods (P6, P10)
 
-2. **Adaptive parameters:** Dynamic feature switching based on market conditions
-   - Use momentum filter in trending markets
-   - Adjust MA period based on volatility
+2. **Volatility filter:** Skip trading when ATR < 0.4 (low volatility)
+   - Would skip P1, P5, P12 systematically
+   - Potential result: 7/9 viable periods (77%)
 
-3. **New test periods:** Validate L6 on unseen 2024 Q1-Q4 periods
+3. **Dynamic config switching:** Use different configs based on market regime
+   - L6 (high success) in trending markets
+   - HF9 (high frequency) in volatile markets
 
-See `OPTIMIZATION_RESULTS_2025-10-12_Round6.md` for complete Round 6 analysis.
+4. **New test periods:** Validate HF9 on fresh 2025 data
+
+See `OPTIMIZATION_RESULTS_2025-10-14_Round7.md` and `OPTIMIZATION_LEARNINGS_Round7.md` for complete analysis.
 
 ## Key Information
 
@@ -94,7 +158,8 @@ POLYGON_API_KEY: [obfuscated]
 
 - `backtest_runner.py` - Run full backtests with Polygon API data
 - `strategy_optimizer.py` - Analyze historical data for optimal parameters
-- `test_multiple_periods.sh` - Test configuration across multiple periods
+- `test_multiple_periods.sh` - Legacy test (6 selective periods from Rounds 1-6)
+- `test_random_periods_json.sh` - **Current test** (12 diverse periods, JSON parsing)
 - `optimization_results.json` - Pre-computed optimization results (2024 data)
 
 ### Configuration Parameters to Test
@@ -120,7 +185,8 @@ SMALL_CANDLE_PERCENTILE = 40    # Try: 30-50
 BIG_CANDLE_PERCENTILE = 60      # Try: 60-80
 ```
 
-**Round 3-4 Findings:** ATR 1.76 optimal for 4/6 success. ATR 1.78 captures different periods (P6 vs P2 trade-off).
+**Round 3-6 Findings:** ATR 1.76 optimal for selective periods (L6: 5/6).
+**Round 7 Findings:** ATR 1.6 better for diverse periods (HF9: 7/12). Lower = more signals without quality loss.
 
 #### 2. Take Profit / Stop Loss (lines 98-108)
 
@@ -136,7 +202,8 @@ TAKE_PROFIT_POINTS = 200  # Try: 150-300
 POSITION_SL_POINTS = 100  # Try: 50-150
 ```
 
-**Round 3 Findings:** TP 3.6x optimal. TP 3.5x lost periods, 3.7x degraded P6. SL 0.3x optimal (0.25x destroyed, 0.35x helped some periods).
+**Round 3-6 Findings:** TP 3.6x optimal for selective periods. SL 0.3x best balance.
+**Round 7 Findings:** TP 4.2x critical for ROI thresholds on diverse periods (+3 periods vs 3.6x). SL 0.2-0.25x minimal impact.
 
 #### 3. Time Filter - Trading Sessions (lines 156-158)
 
@@ -155,7 +222,8 @@ END_HOUR = 16
 # Extended: START_HOUR=5, END_HOUR=20
 ```
 
-**Round 2-3 Findings:** London session (8-16) proven best. Rounds 1-2 tested Sydney/Tokyo - underperformed.
+**Round 2-6 Findings:** London session (8-16) optimal for selective periods.
+**Round 7 Findings:** Extended hours (7-17) gave +25% frequency with no quality loss. Pre-London + NY morning captured additional opportunities.
 
 #### 4. Trend Filter (lines 152-155)
 
@@ -168,7 +236,8 @@ MA_METHOD = 1         # Try: 0=SMA, 1=EMA
 MA_APPLIED_PRICE = 1  # Try: 0=close, 1=open, 2=high, 3=low
 ```
 
-**Hypothesis:** Trend filter may reduce losses in choppy periods (P1, P2) at cost of missing some moves.
+**Round 6 Findings:** MA 50 breakthrough for selective periods (L6: 5/6).
+**Round 7 Findings:** Trend filters (MA 40/50) hurt consistency on diverse periods (dropped from 7/12 to 5/12). Simple beats complex.
 
 #### 5. Entry Timing & Confirmation (lines 163-176)
 
@@ -187,7 +256,8 @@ MAX_EXHAUSTION_RATIO = 3.0      # Try: 2.5-4.0 (reject exhaustion moves)
 CHECK_VOLUME = False            # Skip (requires volume data)
 ```
 
-**Hypothesis:** USE_LIMIT_ENTRY may improve entries in choppy conditions. USE_MOMENTUM_FILTER may reduce false breakouts.
+**Round 5-6 Findings:** Momentum filter (0.7) critical for L6 success. Highest quality trades (PF 2.35).
+**Round 7 Findings:** MIN_BODY_RATIO 0.6 better than 0.7 for diverse periods (+2 periods). 0.5 too permissive. Signal invalidation is CRITICAL - don't disable.
 
 #### 6. Counter-Trend Fade (lines 178-180)
 
@@ -204,7 +274,8 @@ ENABLE_SIGNAL_INVALIDATION = True   # Try: True (exit on reversal) vs False
 INVALIDATION_WINDOW_BARS = 3        # Try: 2-5 bars (shorter = faster exit)
 ```
 
-**Hypothesis:** May reduce losses when breakouts fail immediately. Could help P6 (close call at PF 1.22).
+**Round 5-6 Findings:** Window of 3 bars optimal (tested 2-5).
+**Round 7 Findings:** CRITICAL protection - disabling dropped success from 7/12 to 5/12. DO NOT disable to chase frequency.
 
 #### 8. Grid Trading / Recovery (lines 110-115)
 
@@ -218,7 +289,7 @@ MAX_OPEN_TRADES = 2        # Try: 2-3 (more = more risk)
 GRID_PROFIT_POINTS = 150   # Try: 100-200
 ```
 
-**Warning:** Grid trading increases risk. Only test if single-position results are close to target.
+**Round 7 Findings:** Grid had NO impact on 2-week period tests (HF7: same 7/12 as HF4). 2-week windows too short for grid recovery. Grid may work for longer timeframes (monthly+).
 
 #### 9. Stop Loss Type (lines 117-124)
 
@@ -673,56 +744,71 @@ See OPTIMIZATION_FINDINGS.md for complete analysis.
 5. **Document everything**: Include ALL settings (not just ATR/TP/SL) to understand feature impacts
 6. **Watch for trade-offs**: P2 vs P6 showed mutual exclusivity. New features may have similar trade-offs.
 
-### What We Know (Rounds 1-4)
+### What We Know (Rounds 1-7)
 
-**Optimized (Don't change unless testing specific hypothesis):**
-- ✅ ATR_SMALL: 0.3 (0.28-0.32 tested, 0.3 best)
-- ✅ ATR_BIG: 1.76 (1.74-1.78 tested, 1.76 best for 4/6)
-- ✅ TP: 3.6x (3.5-3.7 tested, 3.6 best balance)
-- ✅ SL: 0.3x (0.25-0.35 tested, 0.3 best)
-- ✅ Time: 8-16 London (proven best in R2-R3)
+**Thoroughly tested parameters:**
+- ✅ ATR_BIG: 1.6 (HF9: diverse periods, 7/12) vs 1.76 (L6: selective, 5/6)
+- ✅ TP: 4.2x (HF9: higher ROI) vs 3.6x (L6: balanced)
+- ✅ SL: 0.2-0.25x optimal (minimal impact beyond this)
+- ✅ ATR_SMALL: 0.3 optimal (0.2 too permissive, 0.4+ too restrictive)
+- ✅ Time: 7-17 (HF9: +25% trades) vs 8-16 (L6: traditional London)
+- ✅ MIN_BODY_RATIO: 0.6 (HF9: balanced) vs 0.7 (L6: quality focus)
+- ✅ ENABLE_TREND_FILTER: False better on diverse periods, True on selective
+- ✅ ENABLE_SIGNAL_INVALIDATION: True CRITICAL - don't disable
+- ✅ ATR_PERIOD: 14 optimal (12 too noisy, tested 10-20)
+- ✅ ENABLE_GRID: No impact on 2-week tests
 
-**Untested (High potential for Round 5):**
-- ❓ ENABLE_SIGNAL_INVALIDATION (currently True)
-- ❓ ENABLE_TREND_FILTER (currently False)
-- ❓ ATR_PERIOD (currently 14)
-- ❓ Time extensions (5-16, 8-20)
-- ❓ USE_MOMENTUM_FILTER (currently False)
-- ❓ USE_LIMIT_ENTRY (currently False)
+**High-potential untested:**
+- ❓ LOT_SIZE increases (directly multiplies ROI)
+- ❓ MAX_DRAWDOWN_PERCENT (may be limiting trades)
+- ❓ Volatility filter (skip ATR < 0.4 periods)
+- ❓ Extended hours beyond 7-17 (e.g., 6-18, 5-20)
+- ❓ Dynamic config switching (L6 for trending, HF9 for volatile)
 
-**Key Lessons from Rounds 1-4:**
+**Key Lessons from Rounds 1-7:**
 - Round 1→3: 2.67x improvement (25% → 67%) via parameter tuning
-- Round 4: No improvement via more parameter tuning (diminishing returns)
-- **Conclusion: Must test FEATURES, not just adjust parameters**
-- Period 6 is improvable (J18 got to PF 1.28, only 0.02 short)
-- Period 2 vs 6 trade-off exists - feature testing may resolve it
+- Round 4: Diminishing returns on same parameters
+- Round 5-6: Feature discovery (momentum + MA 50) → 83% selective success
+- Round 7: Expanded testing revealed overfitting (83% → 33% on diverse periods)
+- **Don't tunnel vision** - test ALL parameters systematically
+- **Extended hours = free lunch** - more opportunities without quality loss
+- **Higher TP > tighter SL** for ROI thresholds
+- **Simple beats complex** - trend filters hurt diverse period consistency
+- **Selective testing overfits** - use 12+ diverse periods for validation
 
 ## Common Pitfalls
 
 ❌ **Don't:**
 
 - Change code logic (only modify configuration values)
-- Test fewer than 4 periods (not enough for validation)
-- Use consecutive periods only (test different quarters)
-- Ignore consistency (4 successes out of 4 tests in August isn't robust)
-- Forget to backup original file
+- Test fewer than 12 periods (6-8 selective periods led to overfitting in Round 7)
+- Use only selective/cherry-picked periods (test random diverse periods)
+- Tunnel vision on same parameters (test ALL adjustable parameters)
+- Disable core protections to chase metrics (signal invalidation is critical)
+- Assume selective testing generalizes (Round 7: L6 dropped from 83% to 33%)
+- Over-optimize for unsuitable conditions (low-vol ranging periods won't be fixed)
 - **Give up early. Persistence is required.**
 
 ✅ **Do:**
 
-- Use diverse test periods (different quarters, market conditions)
-- **Modify `test_multiple_periods.sh` when results are inconsistent.**
+- **Read OPTIMIZATION_LEARNINGS_Round7.md FIRST** to avoid repeating mistakes
+- Use 12+ diverse random periods throughout the year (Q1-Q4 mix)
+- Test ALL parameters systematically, not just "obvious" ones
+- Prioritize high-impact changes (extended hours, TP increases)
 - Document why each change was made
-- Test simpler configurations first
+- Test simpler configurations first (simple often beats complex)
+- Use `test_random_periods_json.sh` for comprehensive validation
 - Check Polygon API responses (use `C:XAUUSD` ticker)
-- Keep `test_multiple_periods.sh` for future use
 
 ## Follow-Up Tasks
 
 After optimization:
 
-1. Demo test recommended settings for 2-4 weeks
-2. Monitor performance vs backtest predictions
-3. Adjust for real spreads/slippage
-4. Re-optimize quarterly with new data
-5. Update CLAUDE.md with new findings
+1. **Document learnings** in OPTIMIZATION_LEARNINGS_RoundX.md (like Round 7)
+2. **Update CLAUDE.md** with new configs and findings
+3. **Update OPTIMIZATION_PROMPT.md** with new parameter insights
+4. Demo test recommended settings for 4-6 weeks
+5. Monitor actual vs backtest performance
+6. Adjust for real spreads/slippage
+7. Re-optimize quarterly with fresh 2025 data
+8. Consider volatility filter if low-vol periods consistently fail

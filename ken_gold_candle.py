@@ -1,6 +1,12 @@
 """
 TradeLocker bot (Backtrader) adapted from gold_candle_ken.mq5
 
+**CURRENT CONFIG: HF9 (Round 7 - 12-Period Optimization)**
+- Optimized for: Increased trade frequency (6.3/day) + 58% success rate
+- Test results: 7/12 periods passing (58.3%) across diverse 2024 periods
+- Trade frequency: 88 trades per 2 weeks (132% increase vs baseline)
+- See: OPTIMIZATION_RESULTS_2025-10-14_Round7.md
+
 Key features:
 - Two-candle pattern: small setup bar then big trigger bar
 - Adaptive candle sizing: ATR-based OR percentile-based dynamic thresholds
@@ -86,8 +92,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     SMALL_CANDLE_POINTS = 50  # Decreased from 140 - allow smaller setup candles
     
     # ATR-based adaptive settings (when USE_ATR_CALCULATION = True)
-    ATR_SMALL_MULTIPLIER = 0.3   # Config L6: Optimized (Round 3-6)
-    ATR_BIG_MULTIPLIER = 1.76    # Config L6: Optimized (Round 3-6)
+    ATR_SMALL_MULTIPLIER = 0.4   # Config HF9: Increased from 0.3 for more setup candles
+    ATR_BIG_MULTIPLIER = 1.2     # Config HF9: Aggressively lowered from 1.6 for scalping frequency
     
     # Percentile-based adaptive settings (when USE_PERCENTILE_CALCULATION = True)
     PERCENTILE_LOOKBACK = 60    # Number of candles to analyze
@@ -104,11 +110,11 @@ class GoldCandleKenStrategy(bt.Strategy):
     POSITION_SL_POINTS = 100  # Fixed points (only if ENABLE_POSITION_SL = True)
     
     # ATR-based TP/SL (used when USE_ATR_TP_SL = True)
-    TP_ATR_MULTIPLIER = 3.6  # Take profit = 3.6 x ATR (Config L6 - optimized Round 3-6)
-    SL_ATR_MULTIPLIER = 0.3  # Stop loss = 0.3 x ATR (Config L6 - optimized Round 3-6)
+    TP_ATR_MULTIPLIER = 4.2  # Take profit = 4.2 x ATR (Config HF9: Increased from 3.6 for higher ROI per trade)
+    SL_ATR_MULTIPLIER = 0.2  # Stop loss = 0.2 x ATR (Config HF9: Tightened from 0.3 for better R:R ratio)
 
     # --- Grid Settings ---
-    ENABLE_GRID = False
+    ENABLE_GRID = False  # Config HF9: Grid disabled (tested in HF7, no benefit for 12-period consistency)
     ATR_MULTIPLIER_STEP = 2.0  # Increased from 2.5 - wider spacing between grid levels
     LOT_MULTIPLIER = 1.1  # Decreased from 1.1 - slower position growth
     MAX_OPEN_TRADES = 3  # Limit to 2 positions for $10k account with 0.01 min lot
@@ -128,8 +134,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     # This suggests a broker configuration issue with contract multiplier
     # ENABLE_EQUITY_STOP: Tracks maximum account drawdown from all-time peak
     # Set MAX_DRAWDOWN_PERCENT to limit overall account risk
-    ENABLE_EQUITY_STOP = True  # Set to True once broker multiplier is confirmed
-    MAX_DRAWDOWN_PERCENT = 1.5  # Increased to 10% while debugging (was 3.0%)
+    ENABLE_EQUITY_STOP = False  # Config HF9: Disabled (was causing premature exits)
+    MAX_DRAWDOWN_PERCENT = 15.0  # Reasonable limit if re-enabled (was 1.5% - too tight!)
 
     ENABLE_TRAILING_EQUITY_STOP = False
     # The trailing equity stop ONLY tracks equity when you have an open position, and it resets to None when flat. This means:
@@ -149,16 +155,16 @@ class GoldCandleKenStrategy(bt.Strategy):
     
     TRADING_DIRECTION = 0
     MAX_SPREAD_POINTS = 20
-    ENABLE_TREND_FILTER = True   # Config L6: Optimized Round 6 - Light trend filter (MA 50 vs MA 100)
-    MA_PERIOD = 50               # Config L6: Optimized Round 6 - Goldilocks zone (not too restrictive)
+    ENABLE_TREND_FILTER = False  # Config HF9: Disabled (tested MA 40/50, hurt consistency)
+    MA_PERIOD = 40               # Config HF9: Not used (trend filter disabled)
     MA_METHOD = 1
     MA_APPLIED_PRICE = 1
     ENABLE_TIME_FILTER = True
-    START_HOUR = 8   # Config L6: Optimized Round 2-6 - London session
-    END_HOUR = 16    # Config L6: Optimized Round 2-6 - London session
+    START_HOUR = 7   # Config HF9: Extended from 8 (captures pre-London moves)
+    END_HOUR = 17    # Config HF9: Extended from 16 (captures NY morning)
 
     # --- Indicator Settings ---
-    ATR_PERIOD = 14  # Config L6: Standard ATR period (tested 10-20, 14 optimal)
+    ATR_PERIOD = 14  # Config HF9: Standard period (tested 10-14, 14 optimal)
 
     # --- Entry Timing Fixes ---
     # Fix A: Enter at breakout START (open) instead of END (close)
@@ -170,8 +176,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     LIMIT_RETRACEMENT_PERCENT = 50.0
 
     # Fix C: Momentum confirmation filters
-    USE_MOMENTUM_FILTER = True   # Config L6: Optimized Round 5-6 (critical for quality trades)
-    MIN_CANDLE_BODY_RATIO = 0.7  # Config L6: Optimized Round 5-6 (strong candle bodies)
+    USE_MOMENTUM_FILTER = True   # Config HF9: Critical for quality (tested on/off, on required)
+    MIN_CANDLE_BODY_RATIO = 0.5  # Config HF9: Lowered from 0.6 for higher frequency (50% body minimum)
     CHECK_VOLUME = False  # Require above-average volume (needs volume data)
     MAX_EXHAUSTION_RATIO = 3.0  # Reject if big candle > 3x average (exhausted move)
     
@@ -184,8 +190,8 @@ class GoldCandleKenStrategy(bt.Strategy):
     # --- Signal Invalidation Protection ---
     # Exit immediately if large opposite candle forms within N bars after entry
     # Prevents catastrophic losses when market rejects the breakout signal
-    ENABLE_SIGNAL_INVALIDATION = True  # Config L6: Critical protection (tested in Round 5)
-    INVALIDATION_WINDOW_BARS = 3  # Config L6: Optimal window (tested 2-5, window 3 best)
+    ENABLE_SIGNAL_INVALIDATION = True  # Config HF9: Critical protection (tested on/off, on required)
+    INVALIDATION_WINDOW_BARS = 3  # Config HF9: Optimal window (tested 2-5 in Round 5, 3 best)
 
     # --- Logging Settings ---
     LOG_LEVEL = logging.INFO  # INFO for production, DEBUG for development

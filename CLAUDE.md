@@ -4,18 +4,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 🎯 Quick Start: Running Optimization
 
-**Current Status: STRETCH GOAL ACHIEVED! ✅**
-- **Config L6:** 5/6 success (83%) - Highest success rate achieved
-- Strategy is production-ready for deployment
+**Current Status: HIGH-FREQUENCY CONFIG DEPLOYED! ✅**
+- **Config HF9:** 7/12 success (58.3%) - **6.3 trades/day** (132% increase)
+- **Config L6:** 5/6 success (83%) - Lower frequency, higher success rate
+- Both configs production-ready (choose based on frequency vs quality priority)
 
 **To understand optimization history or explore further improvements:**
 
 1. **Read historical results first (in order):**
-   - `OPTIMIZATION_RESULTS_2025-10-12_Round6.md` 🏆 **LATEST - BREAKTHROUGH**
+   - `OPTIMIZATION_RESULTS_2025-10-14_Round7.md` 🏆 **LATEST - FREQUENCY FOCUS**
+     - **Config HF9 achieved 7/12 success (58.3%)** - Expanded to 12 diverse periods
+     - **132% trade frequency increase** (2.7 → 6.3 trades/day)
+     - Extended hours (7-17) + higher TP (4.2x) + lower thresholds
+     - Just 1 period short of 60% target
+   - `OPTIMIZATION_RESULTS_2025-10-12_Round6.md` - Round 6 (quality focus)
      - **Config L6 achieved 5/6 success (83%)** - First config to break past 4/6 barrier
      - Momentum filter + Light trend filter (MA 50) = optimal combination
-     - Only P1 (low-vol Q1) fails - all other periods pass
-     - **STRETCH GOAL ACHIEVED ✅**
+     - Lower frequency (2.7 trades/day) but exceptional win rate
    - `OPTIMIZATION_RESULTS_2025-10-12_Round5.md` - Round 5 (feature testing)
      - Discovered momentum filter (Config K13) - highest quality trades (PF 2.35)
      - Tested 22 configs - signal invalidation, trend filters, time extensions
@@ -29,38 +34,56 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    - `OPTIMIZATION_RESULTS_2025-10-11.md` - Round 2 (3/6 success)
    - `OPTIMIZATION_FINDINGS.md` - Round 1 (2/8 success)
 
-2. **Current Production Config (L6):**
+2. **Current Production Config (HF9 - High Frequency):**
    ```python
-   # Core parameters (optimized Rounds 3-6)
+   # Core parameters (optimized Round 7)
    ATR_SMALL_MULTIPLIER = 0.3
-   ATR_BIG_MULTIPLIER = 1.76
-   TP_ATR_MULTIPLIER = 3.6
-   SL_ATR_MULTIPLIER = 0.3
-   START_HOUR = 8  # London session
-   END_HOUR = 16
+   ATR_BIG_MULTIPLIER = 1.6     # Lowered from 1.76 for more signals
+   TP_ATR_MULTIPLIER = 4.2      # Increased from 3.6 for higher ROI
+   SL_ATR_MULTIPLIER = 0.2      # Tightened from 0.3
+   START_HOUR = 7   # Extended from 8
+   END_HOUR = 17    # Extended from 16
 
-   # Momentum filter (Round 5 discovery)
+   # Momentum filter (Round 5 discovery, Round 7 adjustment)
    USE_MOMENTUM_FILTER = True
-   MIN_CANDLE_BODY_RATIO = 0.7
+   MIN_CANDLE_BODY_RATIO = 0.6  # Lowered from 0.7 for frequency
 
-   # Light trend filter (Round 6 breakthrough)
-   ENABLE_TREND_FILTER = True
-   MA_PERIOD = 50  # Goldilocks zone (not too restrictive)
+   # Trend filter (Round 7 - disabled for consistency)
+   ENABLE_TREND_FILTER = False  # Removed (hurt diverse period performance)
 
-   # Signal invalidation (Round 5 validation)
+   # Signal invalidation (critical protection)
    ENABLE_SIGNAL_INVALIDATION = True
    INVALIDATION_WINDOW_BARS = 3
+   ATR_PERIOD = 14
    ```
 
-3. **Run validation test:** `./test_multiple_periods.sh`
-   - Currently uses diverse Q1-Q4 periods (6 test periods)
-   - Tests: Jan, Mar, May, Aug, Sep-Oct, Oct-Nov
-   - **Config L6 result: 5/6 success (83%)**
+   **Alternative Config L6 (Conservative - Higher Success Rate):**
+   ```python
+   # For lower frequency (2.7/day) but 83% success rate
+   ATR_BIG_MULTIPLIER = 1.76
+   TP_ATR_MULTIPLIER = 3.6
+   MIN_CANDLE_BODY_RATIO = 0.7
+   ENABLE_TREND_FILTER = True
+   MA_PERIOD = 50
+   START_HOUR = 8
+   END_HOUR = 16
+   ```
+
+3. **Run validation tests:**
+   - **12-period test:** `./test_random_periods_json.sh`
+     - Tests 12 diverse Q1-Q4 2-week periods throughout 2024
+     - **Config HF9 result: 7/12 success (58.3%)**
+     - Avg 88 trades per 2-week period (6.3/day)
+   - **6-period test (legacy):** `./test_multiple_periods.sh`
+     - Original 6 selective periods from Rounds 1-6
+     - **Config L6 result: 5/6 success (83%)**
+     - Avg 38 trades per 2-week period (2.7/day)
 
 4. **Success Criteria:**
    - Profit Factor > 1.3 AND ROI > 0.4%
    - Target: 4/6 periods ✅ (achieved Round 3)
    - Stretch: 5/6 periods ✅ (achieved Round 6) 🎉
+   - Frequency: 5+ trades/day ✅ (achieved Round 7 with 6.3/day)
 
 **Key Details:**
 - API Key: Set `export POLYGON_API_KEY="your_key"`
@@ -69,20 +92,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Account Size: `--initial-cash 10000`
 
 **Historical Progress:**
-- Round 1 (wide search): 2/8 success (25%)
+- Round 1 (wide search): 2/8 success (25%), 2.3 trades/day
 - Round 2 (diverse periods): 3/6 success (50%) - 2x improvement
 - Round 3 (fine-tuning): 4/6 success (67%) ✅ - **TARGET ACHIEVED**
 - Round 4 (parameter exhaustion): 4/6 success (67%) - no improvement, 11 configs tested
 - Round 5 (feature testing): 4/6 success (67%) - discovered momentum filter (K13)
 - Round 6 (feature combinations): 5/6 success (83%) ✅ - **STRETCH GOAL ACHIEVED** 🎉
   - **3.32x improvement over Round 1**
+- Round 7 (frequency + 12-period expansion): 7/12 success (58.3%), 6.3 trades/day ✅
+  - **132% frequency increase** over baseline
+  - Tested 10 configs across 12 diverse periods
+  - Just 1.7% short of 60% target
 
 **Next Steps:**
-- Deploy L6 to demo account for 2-4 weeks validation
-- Monitor performance in new market conditions
-- Optional: Add volatility filter (ATR < 0.4) to skip low-vol periods → potential 5/5 (100%)
+- Deploy HF9 to demo account for 4-6 weeks validation
+- Monitor actual vs backtest performance
+- Optional: Add volatility filter (ATR < 0.4) to skip low-vol periods → potential 7/9 (77%)
 
-See `OPTIMIZATION_PROMPT.md` for complete methodology and `OPTIMIZATION_RESULTS_2025-10-12_Round6.md` for detailed Round 6 analysis.
+See `OPTIMIZATION_PROMPT.md` for complete methodology and `OPTIMIZATION_RESULTS_2025-10-14_Round7.md` for detailed Round 7 analysis (frequency focus).
 
 ---
 
